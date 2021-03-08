@@ -1,1 +1,1 @@
-# UGR-SIBW
+# Prácticas - Sistemas de Información Basados en Web
