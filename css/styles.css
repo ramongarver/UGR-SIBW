@@ -12,7 +12,7 @@ html, body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: url("../img/fondo1.jpg");
+    background-image: url("../img/background1.jpg");
     background-size: cover;
     background-position: center top;
     animation-name: fadein;
@@ -75,7 +75,7 @@ main {
     text-align: justify;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 0 1.25% 0 1.25%;
-    border-radius: 2%;
+    border-radius: 1vw;
 }
 
 #lateral {
@@ -95,9 +95,9 @@ main {
     margin: 0;
 }
 
-#titulo-eventos {
+#titulo-eventos, #titulo-fotografias, #titulo-sobrenosotros {
     text-align: center;
-    font-size: 1.5vw;
+    font-size: 2.2vw;
     font-weight: bold;
 }
 
@@ -109,18 +109,39 @@ main {
     padding-right: 5%;
 }
 
+#eventos a {
+    font-weight: normal;
+}
+
 .evento {
+    position: relative;
+    min-height: 20vh;
     font-size: 1vw;
-    border-radius: 15px;
+    border-radius: 3vw;
     background-size: cover;
     padding-left: 5%;
-    margin-right: 5%;
-    margin-bottom: 5%;
+    margin: 2%;
+}
+
+.evento h3 {
+    padding-left: 2%;
+    padding-right: 2%;
+    display: inline-block;
+    border-radius: 1vw;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.evento p {
+    padding-left: 2%;
+    padding-right: 2%;
+    display: inline-block;
+    border-radius: 1vw;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 #stars {
     background-position: center;
-    background-image: url("../img/stars.jpeg");
+    background-image: url("../img/stars.jpg");
 }
 
 #animals {
@@ -136,6 +157,31 @@ main {
 #alhambra {
     background-position: center;
     background-image: url("../img/alhambra.jpg");
+}
+
+#palms {
+    background-position: center;
+    background-image: url("../img/palms.jpg");
+}
+
+#object {
+    background-position: center;
+    background-image: url("../img/landscape.jpg");
+}
+
+#landscape {
+    background-position: center;
+    background-image: url("../img/landscape.jpg");
+}
+
+#clock {
+    background-position: center 30%;
+    background-image: url("../img/clock.jpg");
+}
+
+#eyes {
+    background-position: center;
+    background-image: url("../img/eyes.jpg");
 }
 
 footer {
@@ -156,6 +202,7 @@ footer {
 
 #copyright {
     font-size: 1vw;
+    padding-bottom: 1%;
 }
 
 a {
