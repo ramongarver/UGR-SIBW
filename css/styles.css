@@ -1,44 +1,36 @@
 html, body {
     margin: 0;
+    width: 100%;
+    height: 100%;
     color: white;
     font-family: Quicksand, serif;
     background-color: black;
+    scroll-behavior: smooth;
 }
 
 #fondo {
     position: absolute;
     width: 100%;
     height: 100%;
-    z-index: 0;
     background-image: url("../img/fondo1.jpg");
     background-size: cover;
+    background-position: center top;
     animation-name: fadein;
     animation-duration: 2.2s;
+}
+
+header {
+    position: relative;
+    width: 100%;
+    height: 20.5%;
+    z-index: 1;
 }
 
 nav {
     font-size: 1.5vw;
     position: fixed;
     min-width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-ul {
-    list-style-type: none; /* Eliminar las viñetas*/
-    margin: 0;
-    padding: 0;
-}
-
-li {
-    float: left;
-    display: inline-block;
-    padding: 1%;
-    margin-right: 2%;
-}
-
-a {
-    display: block;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.65);
 }
 
 #logo {
@@ -55,6 +47,43 @@ a {
     padding: 1.4% 1% 1% 1%;
 }
 
+ul {
+    list-style-type: none; /* Eliminar las viñetas*/
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    float: left;
+    display: inline-block;
+    padding: 1%;
+    margin-right: 2%;
+}
+
+main {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 79.5%;
+    font-size: 1vw;
+}
+
+#presentacion {
+    position: absolute;
+    width: 30%;
+    margin-left: 5%;
+    text-align: justify;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0 1.25% 0 1.25%;
+    border-radius: 2%;
+}
+
+#lateral {
+    float: right;
+    margin-right: 3%;
+    width: 25%;
+}
+
 #titulo {
     float: right;
     position: relative;
@@ -66,6 +95,72 @@ a {
     margin: 0;
 }
 
+#titulo-eventos {
+    text-align: center;
+    font-size: 1.5vw;
+    font-weight: bold;
+}
+
+#eventos {
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto auto auto;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.evento {
+    font-size: 1vw;
+    border-radius: 15px;
+    background-size: cover;
+    padding-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+}
+
+#stars {
+    background-position: center;
+    background-image: url("../img/stars.jpeg");
+}
+
+#animals {
+    background-position: center;
+    background-image: url("../img/animals.jpg");
+}
+
+#portrait {
+    background-position: center 25%;
+    background-image: url("../img/portrait.jpg");
+}
+
+#alhambra {
+    background-position: center;
+    background-image: url("../img/alhambra.jpg");
+}
+
+footer {
+    text-align: center;
+    padding-top: 2%;
+}
+
+#redes-sociales a {
+    display: inline-block;
+    max-width: 5%;
+    min-width: 5%;
+}
+
+.red-social {
+    width: 50%;
+    height: 50%;
+}
+
+#copyright {
+    font-size: 1vw;
+}
+
+a {
+    display: block;
+}
 
 a:link, a:visited {
     color: white;
@@ -79,6 +174,12 @@ a:hover {
 @font-face {
     font-family: Quicksand;
     src: url("../fonts/Quicksand-Light.ttf");
+}
+
+@font-face {
+    font-family: Quicksand;
+    src: url("../fonts/Quicksand-SemiBold.ttf");
+    font-weight: bold;
 }
 
 @keyframes fadein {
