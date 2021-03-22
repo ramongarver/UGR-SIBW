@@ -5,15 +5,16 @@
         <title>Events X VSCO</title>
         <meta charset="UTF-8"/>
         <link rel="icon" type="image/png" href="img/faviconvsco.ico"/>
-        <link rel="stylesheet" type="text/css" href="css/styles-imprimir.css"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="css/base-imprimir.css"/>
+        <link rel="stylesheet" type="text/css" href="css/evento-imprimir.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <!-- Definición de la unidad vw a la anchura de la pantalla (responsive design) -->
     </head>
 
     <body>
-        <div id="fondo"></div>
+        <div id="fondo"></div> <!-- Fondo de la parte principal de presentación -->
 
-        <header>
-            <nav>
+        <header> <!-- Cabecera con menú de navegación -->
+            <nav> <!-- Barra de navegación con logo, elementos y título -->
                 <a href="portada.html#"><img id="logo" src="img/logovscoblack.png" alt="Logo de VSCO"/></a>
 
                 <div id="menu">
@@ -30,7 +31,7 @@
             </nav>
         </header>
 
-        <aside id="lateral">
+        <aside id="lateral"> <!-- Elementos auxiliares laterales -->
             <p>Experiencias nunca antes vividas en el mundo de la fotografía:</p>
             <ul>
                 <li><a href="">Enlace 1</a></li>
@@ -43,9 +44,10 @@
             </ul>
         </aside>
 
-        <main>
+        <main> <!-- Parte principal de la web | Presentación del evento -->
             <article id="presentacion-evento">
-                <section id="fotos">
+                <h2 id="titulo-evento">Evento fotográfico 1</h2> <!-- Título del artículo (evento) -->
+                <div id="fotos"> <!-- Fotos del evento -->
                     <figure>
                         <img id="cosmos1" class="foto" src="img/space1color.jpg" alt="Imagen del Espacio">
                         <figcaption class="pie-foto">Space photo. © 2021 ESA</figcaption>
@@ -54,35 +56,33 @@
                         <img id="cosmos2" class="foto" src="img/space2color.jpg" alt="Imagen del Espacio">
                         <figcaption class="pie-foto">Space photo. © 2021 ESA</figcaption>
                     </figure>
-                </section>
-                <section id="descripcion">
-                    <h2 id="titulo-evento">Evento fotográfico 1</h2>
+                </div>
+                <div id="descripcion"> <!-- Descripción del evento -->
                     <p id="organizador">Asociación de Fotógrafos Profesionales de España</p>
                     <p id="fecha-hora"><time datetime="2021-10-29 23:00"></time>Viernes 29 de octubre de 2021 a las 23:00 en el Mirador de San Miguel Alto</p>
                     <p>Integer at fermentum velit. Curabitur ultricies mi in massa elementum, imperdiet condimentum ante tempus. Duis vehicula eu lorem in vestibulum. Suspendisse potenti. Sed bibendum vestibulum dui eu aliquam. Pellentesque ut dolor non sem luctus suscipit. Cras sed metus ornare, pretium magna eget, aliquam mauris. Curabitur rutrum aliquet placerat. Nunc hendrerit elit risus, convallis lobortis ipsum sodales sit amet.</p>
                     <p>Sed bibendum vestibulum dui eu aliquam. Pellentesque ut dolor non sem luctus suscipit. Cras sed metus ornare, pretium magna eget, aliquam mauris. Curabitur rutrum aliquet placerat. Cras sed metus ornare, pretium magna eget, aliquam mauris. Curabitur rutrum aliquet placerat. Nunc hendrerit elit risus, convallis lobortis ipsum sodales sit amet.</p>
                     <p>Duis vehicula eu lorem in vestibulum. Suspendisse potenti. Duis vehicula eu lorem in vestibulum. Suspendisse potenti. Duis vehicula eu lorem in vestibulum. Suspendisse potenti. Duis vehicula eu lorem in vestibulum.</p>
-                    <p id="web-organizador">Visita la web del organizador: <a href="https://afpe.pro/"><abbr title="Asociación de Fotógrafos Profesionales de España">AFPE</abbr></a></p>
-                </section>
-                <section id="comparte" class="redes-sociales">
+                    <address id="web-organizador">Visita la web del organizador: <a href="https://afpe.pro/"><abbr title="Asociación de Fotógrafos Profesionales de España">AFPE</abbr></a></address>
+                </div>
+                <div id="comparte" class="redes-sociales"> <!-- Comparte del evento -->
                     <p>¡Comparte el evento en tus redes sociales!</p>
                     <a href="https://www.instagram.com/"><img class="red-social" src="img/logoinstagram.png" alt="Logo de Instagram"/></a>
                     <a href="https://twitter.com/"><img class="red-social" src="img/logotwitter.png" alt="Logo de Twitter"/></a>
                     <a href="https://www.facebook.com/"><img class="red-social" src="img/logofacebook.png" alt="Logo de Facebook"/></a>
                     <a href="evento-imprimir.html"><img class="red-social" src="img/logoimpresora.png" alt="Logo de Impresora"/></a>
-                </section>
+                </div>
             </article>
         </main>
 
-        <footer>
+        <footer>  <!-- Pie de página con redes sociales (contacto), copyright y autor -->
             <div class="redes-sociales">
                 <a href="https://www.instagram.com/"><img class="red-social" id="instagram" src="img/logoinstagram.png" alt="Logo de Instagram"/></a>
                 <a href="https://twitter.com/"><img class="red-social" id="twitter" src="img/logotwitter.png" alt="Logo de Twitter"/></a>
                 <a href="https://www.facebook.com/"><img class="red-social" id="facebook" src="img/logofacebook.png" alt="Logo de Facebook"/></a>
-                <a href=""><img class="red-social" id="impresora" src="img/logoimpresora.png" alt="Logo de Impresora"/></a>
+                <a href="evento-imprimir.html"><img class="red-social" id="impresora" src="img/logoimpresora.png" alt="Logo de Impresora"/></a>
             </div>
             <p id="copyright">Copyright © 2021 | Ramón García Verjaga</p>
         </footer>
-
     </body>
 </html>

@@ -1,0 +1,185 @@
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    color: black;
+    font-family: serif;
+    background-color: white;
+    scroll-behavior: smooth;
+}
+
+/***** || FONDO *****/
+#fondo {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/background1.jpg");
+    background-size: cover;
+    background-position: center top;
+    animation-name: fadein;
+    animation-duration: 2.2s;
+}
+/**************************/
+
+/***** || HEADER *****/
+header {
+    position: relative;
+    width: 100%;
+    height: 20.5%;
+    text-align: center;
+    z-index: 1;
+}
+
+#titulo {
+    display: inline-block;
+    position: relative;
+    padding: 1% 0 0 0;
+}
+
+#titulo h1 {
+    margin: 0;
+}
+
+.titulo-articulo {
+    font-size: 2.2vw;
+    text-align: center;
+    font-weight: bold;
+}
+
+nav {
+    position: fixed;
+    min-width: 100%;
+    font-size: 1.5vw;
+}
+
+#logo {
+    display: block;
+    position: relative;
+    width: 4%;
+    margin: auto;
+    padding: 1% 0 0 0;
+}
+
+#menu {
+    display: none;
+    width: 65vw;
+    padding: 1.4% 1% 1% 1%;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none; /*Eliminar las viñetas*/
+}
+
+nav li {
+    display: inline-block;
+    float: left;
+    margin-right: 2%;
+    padding: 1%;
+}
+/**************************/
+
+/***** || MAIN *****/
+main {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: 60%;
+    font-size: 1vw;
+}
+/**************************/
+
+/***** || ASIDE *****/
+#lateral {
+    display: none;
+    position: relative;
+    float: right;
+    width: 14%;
+    height: 75vh;
+    margin-right: 3%;
+    padding: 0 1.25% 0 1.25%;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 1vw;
+    font-size: 1vw;
+    font-weight: bold;
+}
+
+#lateral p {
+    font-size: 120%;
+}
+
+#lateral li {
+    padding-left: 10%;
+    padding-bottom: 10%;
+}
+/**************************/
+
+/***** || FOOTER *****/
+footer {
+    padding-top: 2%;
+    text-align: center;
+}
+
+.redes-sociales a {
+    display: none;
+    max-width: 5%;
+    min-width: 5%;
+}
+
+.red-social {
+    width: 50%;
+    height: 50%;
+}
+
+#copyright {
+    padding-bottom: 1%;
+    font-size: 1vw;
+}
+/**************************/
+
+/***** || LINKS *****/
+a {
+    display: block;
+}
+
+a:link, a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    font-weight: bold;
+}
+
+address a {
+    display: inline-block;
+}
+/**************************/
+
+/***** || ABREVIATURA *****/
+abbr {
+    text-decoration: unset;
+}
+/**************************/
+
+/***** || FUENTES *****/
+@font-face {
+    font-family: Quicksand;
+    src: url("../fonts/Quicksand-Light.ttf");
+}
+
+@font-face {
+    font-family: Quicksand;
+    src: url("../fonts/Quicksand-SemiBold.ttf");
+    font-weight: bold;
+}
+/**************************/
+
+/***** || ANIMACIONES *****/
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+/**************************/

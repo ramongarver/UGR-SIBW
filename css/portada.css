@@ -1,0 +1,96 @@
+/***** || PRESENTACIÓN *****/
+#presentacion {
+    position: absolute;
+    width: 37.5%;
+    margin-left: 5%;
+    padding: 0 1.25% 0 1.25%;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 1vw;
+    text-align: justify;
+}
+/**************************/
+
+/***** || EVENTOS *****/
+#eventos {
+    display: grid;
+    padding-left: 5%;
+    padding-right: 5%;
+    grid-template-columns: auto auto auto;
+    align-items: center;
+}
+
+#eventos a {
+    font-weight: normal;
+}
+
+.evento {
+    position: relative;
+    min-height: 20vh;
+    margin: 2%;
+    padding-left: 5%;
+    background-size: cover;
+    border-radius: 3vw;
+    font-size: 1vw;
+}
+
+.evento h3 {
+    display: inline-block;
+    padding-left: 2%;
+    padding-right: 2%;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 1vw;
+}
+
+.evento p {
+    display: inline-block;
+    padding-left: 2%;
+    padding-right: 2%;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 1vw;
+}
+
+#stars {
+    background-position: center;
+    background-image: url("../img/stars.jpg");
+}
+
+#animals {
+    background-position: center;
+    background-image: url("../img/animals.jpg");
+}
+
+#portrait {
+    background-position: center 25%;
+    background-image: url("../img/portrait.jpg");
+}
+
+#alhambra {
+    background-position: center;
+    background-image: url("../img/alhambra.jpg");
+}
+
+#palms {
+    background-position: center;
+    background-image: url("../img/palms.jpg");
+}
+
+#object {
+    background-position: center;
+    background-image: url("../img/landscape.jpg");
+}
+
+#landscape {
+    background-position: center;
+    background-image: url("../img/landscape.jpg");
+}
+
+#clock {
+    background-position: center 30%;
+    background-image: url("../img/clock.jpg");
+}
+
+#eyes {
+    background-position: center;
+    background-image: url("../img/eyes.jpg");
+}
+/**************************/

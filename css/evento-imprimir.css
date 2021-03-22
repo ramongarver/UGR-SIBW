@@ -1,0 +1,53 @@
+/***** || EVENTO *****/
+#presentacion-evento {
+    position: relative;
+    margin: 4%;
+    text-align: justify;
+}
+
+#fotos {
+    float: right;
+    width: 20%;
+    margin: 2% 1% 0 3%;
+}
+
+#fotos figure {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.foto {
+    width: 100%;
+    border-radius: 1vw;
+}
+
+.pie-foto {
+    font-size: 50%;
+    text-align: center;
+}
+
+#titulo-evento {
+    font-size: 2vw;
+}
+
+#organizador {
+    margin-left: 3%;
+    margin-bottom: 1%;
+    font-size: 125%;
+    font-weight: bold;
+    font-style: italic;
+}
+
+#fecha-hora {
+    margin-top: 0;
+    margin-left: 5%;
+    font-style: italic;
+}
+
+#web-organizador {
+    display: none;
+}
+
+#comparte {
+    display: none;
+}
