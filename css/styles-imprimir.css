@@ -2,13 +2,14 @@ html, body {
     margin: 0;
     width: 100%;
     height: 100%;
-    color: white;
-    font-family: Quicksand, serif;
-    background-color: black;
+    color: black;
+    font-family: serif;
+    background-color: white;
     scroll-behavior: smooth;
 }
 
 #fondo {
+    display: none;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -24,25 +25,29 @@ header {
     width: 100%;
     height: 20.5%;
     z-index: 1;
+    text-align: center;
 }
 
 nav {
     font-size: 1.5vw;
     position: fixed;
     min-width: 100%;
-    background-color: rgba(0, 0, 0, 0.65);
+}
+
+nav a {
+    width: 100%;
 }
 
 #logo {
-    float: left;
+    display: block;
     position: relative;
     width: 4%;
-    padding: 1% 1.5% 1% 1.5%;
-    margin-left: 0.5%;
+    padding: 1% 0 0 0;
+    margin: auto;
 }
 
 #menu {
-    display: inline-block;
+    display: none;
     width: 65vw;
     padding: 1.4% 1% 1% 1%;
 }
@@ -63,8 +68,8 @@ nav li {
 main {
     position: relative;
     display: inline-block;
-    width: 80%;
-    height: 79.5%;
+    width: 100%;
+    height: 60%;
     font-size: 1vw;
 }
 
@@ -79,13 +84,9 @@ main {
 }
 
 #presentacion-evento {
-    position: absolute;
-    width: 70%;
-    height: 75vh;
-    margin-left: 5%;
+    position: relative;
+    margin: 4%;
     text-align: justify;
-    background-color: rgba(0, 0, 0, 0.9);
-    padding: 0 1.25% 0 1.25%;
     border-radius: 1vw;
 }
 
@@ -100,6 +101,10 @@ main {
     margin-left: 3%;
 }
 
+#web-organizador {
+    display: none;
+}
+
 #fecha-hora {
     font-style: italic;
     margin-top: 0;
@@ -108,8 +113,8 @@ main {
 
 #fotos {
     float: right;
-    width: 30%;
-    margin: 8% 1% 0 3%;
+    width: 20%;
+    margin: 2% 1% 0 3%;
 }
 
 #fotos figure {
@@ -128,7 +133,7 @@ main {
 }
 
 #comparte {
-
+    display: none;
 }
 
 
@@ -138,6 +143,7 @@ main {
 }
 
 #lateral {
+    display: none;
     position: relative;
     float: right;
     margin-right: 3%;
@@ -160,10 +166,9 @@ main {
 }
 
 #titulo {
-    float: right;
     position: relative;
     display: inline-block;
-    padding: 1.5% 4% 1% 1%;
+    margin: 1% 0 0 0;
 }
 
 #titulo h1 {
@@ -265,7 +270,7 @@ footer {
 }
 
 .redes-sociales a {
-    display: inline-block;
+    display: none;
     max-width: 5%;
     min-width: 5%;
 }
