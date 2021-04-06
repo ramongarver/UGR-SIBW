@@ -49,3 +49,9 @@
     font-style: italic;
 }
 /**************************/
+
+/***** || COMENTARIOS *****/
+#contenedor-interno-comentarios {
+    display: none;
+}
+/**************************/
