@@ -2,7 +2,6 @@
 #presentacion-evento {
     position: absolute;
     width: 70%;
-    height: 75vh;
     margin-left: 5%;
     padding: 0 1.25% 0 1.25%;
     background-color: rgba(0, 0, 0, 0.9);
@@ -51,7 +50,38 @@
 /**************************/
 
 /***** || COMENTARIOS *****/
+#contenedor-comentarios {
+}
+
+.boton {
+    margin-top: 2%;
+    margin-bottom: 2%;
+
+    border-radius: 1vw;
+    font-family: Quicksand;
+    font-size: 75%;
+    font-weight: bold;
+    font-style: italic;
+}
+
 #contenedor-interno-comentarios {
     display: none;
+}
+
+.comentario {
+    padding: 1% 2% 1% 2%;
+    margin: 1% 0% 1% 0%;
+    background-color: white;
+    border-radius: 1vw;
+    color: black;
+}
+
+.autor-comentario {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.fecha-comentario {
+    font-style: italic;
 }
 /**************************/
