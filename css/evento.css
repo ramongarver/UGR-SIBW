@@ -50,18 +50,25 @@
 /**************************/
 
 /***** || COMENTARIOS *****/
-#contenedor-comentarios {
-}
-
 .boton {
+    background-color: white;
+    border-color: white;
     margin-top: 2%;
     margin-bottom: 2%;
-
     border-radius: 1vw;
     font-family: Quicksand;
     font-size: 75%;
     font-weight: bold;
     font-style: italic;
+}
+
+.boton:focus {
+    outline: none;
+}
+
+#contenedor-comentarios h4{
+    font-size: 150%;
+    margin: 3% 0% 2% 0%;
 }
 
 #contenedor-interno-comentarios {
@@ -83,5 +90,26 @@
 
 .fecha-comentario {
     font-style: italic;
+}
+
+.input {
+    display: block;
+}
+
+.input label {
+    font-weight: bold;
+}
+
+.input input, .input textarea {
+    display: block;
+    font-family: Quicksand;
+    font-size: 1vw;
+    resize: none;
+}
+
+#texto-comentario {
+    display: block;
+    width: 75%;
+    height: 15vh;
 }
 /**************************/

@@ -87,14 +87,21 @@
                                 <p class="texto-comentario">Nam ornare erat at posuere cursus. Aenean et laoreet dolor. Morbi ultrices, mi vel pretium suscipit, augue tortor varius lorem, gravida ultricies lacus risus id justo.</p>
                             </div>
                         </div>
+                        <h4>¡Escribe tu opinión!</h4>
                         <div id="formulario">
                             <form action="javascript:void(0);">
-                                <label for="nombre">Nombre</label>
-                                <input type="text" id="nombre" name="nombre"/>
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email"/>
-                                <label for="texto-comentario">Comentario</label>
-                                <input type="text" id="texto-comentario" name="texto-comentario" oninput="filtrarPalabrotas()"/>
+                                <div class="input">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" id="nombre" name="nombre"/>
+                                </div>
+                                <div class="input">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email"/>
+                                </div>
+                                <div class="input">
+                                    <label for="texto-comentario">Comentario</label>
+                                    <textarea id="texto-comentario" name="texto-comentario" rows="2" cols="10" oninput="filtrarPalabrotas()"></textarea>
+                                </div>
                                 <button id="botonEnviar" class="boton" onclick="enviarComentario()">Enviar</button>
                             </form>
                         </div>
