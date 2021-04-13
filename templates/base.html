@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="es">
+    <head>
+        <title>{% block title %}Events X VSCO{% endblock %}</title>
+        <meta charset="UTF-8"/>
+        <link rel="icon" type="image/png" href="/img/faviconvsco.ico"/>
+        {% block css %}
+
+        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <!-- Definición de la unidad vw a la anchura de la pantalla (responsive design) -->
+    </head>
+
+    <body>
+        <div id="fondo"></div> <!-- Fondo de la parte principal de presentación -->
+
+        <header> <!-- Cabecera con menú de navegación -->
+            <nav> <!-- Barra de navegación con logo, elementos y título -->
+                <a href="/"><img id="logo" {% block logo %}src="/img/logovsco.png"{% endblock %} alt="Logo de VSCO"/></a>
+
+                <div id="menu">
+                    <ul>
+                        <li><a href="/#titulo-eventos">Eventos</a></li>
+                        <li><a href="/#titulo-fotografias">Fotografías</a></li>
+                        <li><a href="/#titulo-sobrenosotros">Sobre nosotros</a></li>
+                    </ul>
+                </div>
+
+                <div id="titulo">
+                    <h1>Events X VSCO</h1>
+                </div>
+            </nav>
+        </header>
+
+        <aside id="lateral"> <!-- Elementos auxiliares laterales -->
+            <p>Experiencias nunca antes vividas en el mundo de la fotografía:</p>
+            <ul>
+                <li><a href="">Enlace 1</a></li>
+                <li><a href="">Enlace 2</a></li>
+                <li><a href="">Enlace 3</a></li>
+                <li><a href="">Enlace 4</a></li>
+                <li><a href="">Enlace 5</a></li>
+                <li><a href="">Enlace 6</a></li>
+                <li><a href="">Enlace 7</a></li>
+            </ul>
+        </aside>
+
+        {% block content %}
+
+        {% endblock %}
+
+        <footer>  <!-- Pie de página con redes sociales (contacto), copyright y autor -->
+            <div class="redes-sociales">
+                <a href="https://www.instagram.com/"><img class="red-social" id="instagram" src="/img/logoinstagram.png" alt="Logo de Instagram"/></a>
+                <a href="https://twitter.com/"><img class="red-social" id="twitter" src="/img/logotwitter.png" alt="Logo de Twitter"/></a>
+                <a href="https://www.facebook.com/"><img class="red-social" id="facebook" src="/img/logofacebook.png" alt="Logo de Facebook"/></a>
+                <a href="evento-imprimir.html"><img class="red-social" id="impresora" src="/img/logoimpresora.png" alt="Logo de Impresora"/></a>
+            </div>
+            <p id="copyright">Copyright &copy 2021 | Ramón García Verjaga</p>
+        </footer>
+    </body>
+</html>

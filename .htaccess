@@ -1,0 +1,9 @@
+RedirectMatch 404 /templates
+RedirectMatch 404 /scripts
+
+RewriteEngine On
+RewriteBase /
+Options -Indexes
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ /index.php [L]

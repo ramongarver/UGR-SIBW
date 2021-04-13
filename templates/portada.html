@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/portada.css"/>
+    {% endblock %}
+
+    {% block content %}
+        <main> <!-- Parte principal de la web | Presentación -->
+            <article id="presentacion">
+                <h2>A new way to live the photography</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus congue sem ac libero scelerisque consequat. Integer at fermentum velit. Curabitur ultricies mi in massa elementum, imperdiet condimentum ante tempus. Duis vehicula eu lorem in vestibulum. Suspendisse potenti. Sed bibendum vestibulum dui eu aliquam. Pellentesque ut dolor non sem luctus suscipit. Cras sed metus ornare, pretium magna eget, aliquam mauris. Curabitur rutrum aliquet placerat. Nunc hendrerit elit risus, convallis lobortis ipsum sodales sit amet.</p>
+            </article>
+        </main>
+
+        <article> <!-- Artículo de eventos -->
+            <h2 id="titulo-eventos" class="titulo-articulo">EVENTOS</h2> <!-- Encabezado del artículo (evento) -->
+            <div id="eventos"> <!-- Grid de eventos -->
+                <a href="evento/1"><div id="stars" class="evento">
+                    <h3>EVENTO DE FOTOGRAFÍA 1</h3>
+                    <p>29 de octubre</p>
+                </div></a>
+                <a href="evento/2"><div id="animals" class="evento">
+                    <h3>EVENTO DE FOTOGRAFÍA 2</h3>
+                    <p>29 de octubre</p>
+                </div></a>
+                <a href="evento/3"><div id="portrait" class="evento">
+                    <h3>EVENTO DE FOTOGRAFÍA 3</h3>
+                    <p>29 de octubre</p>
+                </div></a>
+                <a href="evento/4"><div id="alhambra" class="evento">
+                    <h3>EVENTO DE FOTOGRAFÍA 4</h3>
+                    <p>29 de octubre</p>
+                </div></a>
+                <a href="evento/5"><div id="palms" class="evento">
+                    <h3>EVENTO DE FOTOGRAFÍA 5</h3>
+                    <p>29 de octubre</p>
+                </div></a>
+                <a href="evento/6"><div id="object" class="evento">
+                    <h3>EVENTO DE FOTOGRAFÍA 6</h3>
+                    <p>29 de octubre</p>
+                </div></a>
+                <a href="evento/7"><div id="landscape" class="evento">
+                    <h3>EVENTO DE FOTOGRAFÍA 7</h3>
+                    <p>29 de octubre</p>
+                </div></a>
+                <a href="evento/8"><div id="clock" class="evento">
+                    <h3>EVENTO DE FOTOGRAFÍA 8</h3>
+                    <p>29 de octubre</p>
+                </div></a>
+                <a href="evento/9"><div id="eyes" class="evento">
+                    <h3>EVENTO DE FOTOGRAFÍA 9</h3>
+                    <p>29 de octubre</p>
+                </div></a>
+            </div>
+        </article>
+
+        <article> <!-- Artículo de presentación de eventos -->
+            <h2 id="titulo-fotografias" class="titulo-articulo">FOTOGRAFÍAS</h2>
+            <p>Aquí irán algunas fotografías</p>
+        </article>
+
+        <article> <!-- Artículo de información de la organización de eventos -->
+            <h2 id="titulo-sobrenosotros" class="titulo-articulo">SOBRE NOSOTROS</h2>
+            <p>Aquí irá alguna información sobre la organización, su historia, sus objetivos...</p>
+        </article>
+    {% endblock %}
