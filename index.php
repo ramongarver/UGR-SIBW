@@ -1,5 +1,6 @@
 <?php
   require_once "/usr/local/lib/php/vendor/autoload.php";
+  require_once "./scripts/db.php";
 
   $loader = new \Twig\Loader\FilesystemLoader('templates');
   $twig = new \Twig\Environment($loader);
@@ -10,12 +11,15 @@
 
   $uri = $_SERVER['REQUEST_URI'];
 
-  var_dump($uri);
-
   if (startsWith($uri, "/evento")) {
     include("scripts/evento.php");
   }
   else {
-    echo $twig->render('portada.html', []);
+    $application = new AppDB();
+    $eventos = $application->obtenerEventos();
+
+    echo $twig->render('portada.html', ['eventos' => $eventos]);
+
+    $application->cerrarConexion();
   }
 ?>

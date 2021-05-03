@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+    {% block title %} Evento - {{ evento.nombre }} {% endblock %}
+
     {% block css %}
         <link rel="stylesheet" type="text/css" href="/css/base.css"/>
         <link rel="stylesheet" type="text/css" href="/css/evento.css"/>
@@ -8,47 +10,41 @@
     {% block content %}
         <main>  <!-- Parte principal de la web | Presentación del evento -->
             <article id="presentacion-evento">
-                <h2 id="titulo-evento">Evento fotográfico {{ id }}</h2> <!-- Título del artículo (evento) -->
+                <h2 id="titulo-evento">{{ evento.nombre }}</h2> <!-- Título del artículo (evento) -->
                 <div id="fotos"> <!-- Fotos del evento -->
-                    <figure>
-                        <img id="cosmos1" class="foto" src="/img/space1color.jpg" alt="Imagen del Espacio">
-                        <figcaption class="pie-foto">Space photo. © 2021 ESA</figcaption>
-                    </figure>
-                    <figure>
-                        <img id="cosmos2" class="foto" src="/img/space2color.jpg" alt="Imagen del Espacio">
-                        <figcaption class="pie-foto">Space photo. © 2021 ESA</figcaption>
-                    </figure>
+                    {% for imagen in imagenes %}
+                        <figure>
+                            <img id="cosmos{{ imagen.id_imagen }}" class="foto" src="{{ imagen.path }}" alt="{{ imagen.descripcion }}">
+                            <figcaption class="pie-foto">{{ imagen.descripcion }} &copy {{ imagen.year }} {{ imagen.autor }}</figcaption>
+                        </figure>
+                    {% endfor %}
                 </div>
                 <div id="descripcion"> <!-- Descripción del evento -->
-                    <p id="organizador">Asociación de Fotógrafos Profesionales de España</p>
-                    <p id="fecha-hora"><time datetime="2021-10-29 23:00"></time>Viernes 29 de octubre de 2021 a las 23:00 en el Mirador de San Miguel Alto</p>
-                    <p>Integer at fermentum velit. Curabitur ultricies mi in massa elementum, imperdiet condimentum ante tempus. Duis vehicula eu lorem in vestibulum. Suspendisse potenti. Sed bibendum vestibulum dui eu aliquam. Pellentesque ut dolor non sem luctus suscipit. Cras sed metus ornare, pretium magna eget, aliquam mauris. Curabitur rutrum aliquet placerat. Nunc hendrerit elit risus, convallis lobortis ipsum sodales sit amet.</p>
-                    <p>Sed bibendum vestibulum dui eu aliquam. Pellentesque ut dolor non sem luctus suscipit. Cras sed metus ornare, pretium magna eget, aliquam mauris. Curabitur rutrum aliquet placerat. Cras sed metus ornare, pretium magna eget, aliquam mauris. Curabitur rutrum aliquet placerat. Nunc hendrerit elit risus, convallis lobortis ipsum sodales sit amet.</p>
-                    <p>Duis vehicula eu lorem in vestibulum. Suspendisse potenti. Duis vehicula eu lorem in vestibulum. Suspendisse potenti. Duis vehicula eu lorem in vestibulum. Suspendisse potenti. Duis vehicula eu lorem in vestibulum.</p>
-                    <address id="web-organizador">Visita la web del organizador: <a href="https://afpe.pro/"><abbr title="Asociación de Fotógrafos Profesionales de España">AFPE</abbr></a></address>
+                    <p id="organizador">{{ evento.organizador }}</p>
+                    <p id="fecha-hora"><time datetime="2021-10-29 23:00"></time>
+                        {{ evento.fecha }} a las {{ evento.hora }} en {{ evento.lugar }}</p>
+                    <p>{{ evento.descripcion }}</p>
+                    <address id="web-organizador"><a href="{{ evento.url }}"><abbr>Visita la web del organizador</abbr></a></address>
                 </div>
                 <div id="comparte" class="redes-sociales"> <!-- Comparte del evento -->
                     <p>¡Comparte el evento en tus redes sociales!</p>
                     <a href="https://www.instagram.com/"><img class="red-social" src="/img/logoinstagram.png" alt="Logo de Instagram"/></a>
                     <a href="https://twitter.com/"><img class="red-social" src="/img/logotwitter.png" alt="Logo de Twitter"/></a>
                     <a href="https://www.facebook.com/"><img class="red-social" src="/img/logofacebook.png" alt="Logo de Facebook"/></a>
-                    <a href="evento-imprimir.html"><img class="red-social" src="/img/logoimpresora.png" alt="Logo de Impresora"/></a>
+                    <a href="{{ evento.id_evento }}/imprimir"><img class="red-social" src="/img/logoimpresora.png" alt="Logo de Impresora"/></a>
                 </div>
             {% block comments %}
                     <div id="contenedor-comentarios">
                         <button id="botonComentarios" class="boton" onclick="visualizacionComentarios()">Mostrar comentarios</button>
                         <div id="contenedor-interno-comentarios">
                             <div id="comentarios">
-                                <div id="comentario2" class="comentario">
-                                    <div class="autor-comentario">Juan Pérez,</div>
-                                    <div class="fecha-comentario">el lunes 30 de marzo de 2021 a las 19:23, comentó:</div>
-                                    <p class="texto-comentario">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nisi arcu, volutpat ut urna eu, tincidunt fermentum elit. Maecenas tellus ipsum, sodales vitae lacus ac, dictum finibus eros. Vestibulum vel euismod ex, a luctus nulla. Mauris sed eros feugiat, feugiat orci vel, tempor tortor.</p>
-                                </div>
-                                <div id="comentario1" class="comentario">
-                                    <div class="autor-comentario">Antonio Sánchez,</div>
-                                    <div class="fecha-comentario">el lunes 25 de marzo a las 13:01, comentó:</div>
-                                    <p class="texto-comentario">Nam ornare erat at posuere cursus. Aenean et laoreet dolor. Morbi ultrices, mi vel pretium suscipit, augue tortor varius lorem, gravida ultricies lacus risus id justo.</p>
-                                </div>
+                                {% for comentario in comentarios %}
+                                    <div id="comentario{{ comentario.id_comentario }}" class="comentario">
+                                        <div class="autor-comentario">{{ comentario.nombre }},</div>
+                                        <div class="fecha-comentario">el {{ comentario.fecha }}, comentó:</div>
+                                        <p class="texto-comentario">{{ comentario.comentario }}</p>
+                                    </div>
+                                {% endfor %}
                             </div>
                             <h4>¡Escribe tu opinión!</h4>
                             <div id="formulario">
@@ -63,7 +59,7 @@
                                     </div>
                                     <div class="input">
                                         <label for="texto-comentario">Comentario</label>
-                                        <textarea id="texto-comentario" name="texto-comentario" rows="2" cols="10" oninput="filtrarPalabrotas()"></textarea>
+                                        <textarea id="texto-comentario" name="texto-comentario" rows="2" cols="10" oninput="filtrarPalabrotas({{ palabrotas | json_encode }})"></textarea>
                                     </div>
                                     <button id="botonEnviar" class="boton" onclick="enviarComentario()">Enviar</button>
                                 </form>

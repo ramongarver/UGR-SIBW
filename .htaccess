@@ -1,5 +1,6 @@
 RedirectMatch 404 /templates
 RedirectMatch 404 /scripts
+RedirectMatch 404 /db
 
 RewriteEngine On
 RewriteBase /

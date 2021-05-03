@@ -54,47 +54,47 @@
     border-radius: 1vw;
 }
 
-#stars {
+#evento1 {
     background-position: center;
     background-image: url("../img/stars.jpg");
 }
 
-#animals {
+#evento2 {
     background-position: center;
     background-image: url("../img/animals.jpg");
 }
 
-#portrait {
+#evento3 {
     background-position: center 25%;
     background-image: url("../img/portrait.jpg");
 }
 
-#alhambra {
+#evento4 {
     background-position: center;
     background-image: url("../img/alhambra.jpg");
 }
 
-#palms {
+#evento5 {
     background-position: center;
     background-image: url("../img/palms.jpg");
 }
 
-#object {
+#evento6 {
     background-position: center;
     background-image: url("../img/landscape.jpg");
 }
 
-#landscape {
+#evento7 {
     background-position: center;
     background-image: url("../img/landscape.jpg");
 }
 
-#clock {
+#evento8 {
     background-position: center 30%;
     background-image: url("../img/clock.jpg");
 }
 
-#eyes {
+#evento9 {
     background-position: center;
     background-image: url("../img/eyes.jpg");
 }

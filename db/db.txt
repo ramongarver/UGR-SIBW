@@ -1,0 +1,134 @@
+# Conectamos a nuestra base de datos (como root):
+mysql -h 127.0.0.1 -P 3307 -u root -p
+tiger
+
+# Miramos las bases de datos que hay creadas
+show databases;
+
+# Creamos una base de datos llamada "events"
+CREATE DATABASE events;
+
+# Creamos un nuevo usuario "admin"
+CREATE USER 'admin'@'%' IDENTIFIED BY 'admin';
+
+# Damos permisos a nuestro usuario para poder trabajar con él (y no entrar como root ¡peligroso!)
+GRANT CREATE, REFERENCES, DELETE, DROP, INDEX, INSERT, SELECT, UPDATE ON events.* TO 'admin'@'%';
+
+# Salimos del cliente SQL
+exit;
+
+# Entramos con el usuario "admin"
+mysql -h 127.0.0.1 -P 3307 -u admin -p
+admin
+
+# Usamos la base de datos creada "events"
+use events;
+
+### Tablas:
+
+# eventos(id_evento, nombre, organizador, fecha, hora, lugar, url, descripcion, url_portada)
+# 		  --- CP --
+
+# imagenes(id_imagen, id_evento, autor, year, descripcion, path)
+#                     --- CE --
+#          ------- CP ---------
+
+# comentarios(id_comentario, id_evento, nombre, email, fecha, comentario)
+#							 --- CE --
+#             ---------- CP -----------
+
+# palabrotas (id_palabrota, palabrota)
+#             ---- CP ----
+
+# Creamos la tabla de los eventos
+CREATE TABLE eventos(
+	id_evento INT AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(100) NOT NULL,
+	organizador VARCHAR(100),
+	fecha DATE NOT NULL,
+	hora TIME NOT NULL,
+	lugar VARCHAR(100) NOT NULL,
+	url VARCHAR(512),
+	descripcion VARCHAR(1024),
+	url_portada VARCHAR(512)
+);
+# source ./www/db/create_eventos.sql;
+
+# Creamos la tabla de imágenes
+CREATE TABLE imagenes(
+	id_imagen INT UNIQUE NOT NULL,
+	id_evento INT NOT NULL,
+	autor VARCHAR(50) NOT NULL DEFAULT 'Desconocido',
+	year YEAR,
+	path VARCHAR(512) NOT NULL,
+	CONSTRAINT fk_evento_imagen FOREIGN KEY (id_evento) REFERENCES eventos(id_evento),
+	CONSTRAINT pk_imagen PRIMARY KEY(id_evento, id_imagen)
+);
+# source ./www/db/create_imagenes.sql;
+
+# Creamos la tabla de comentarios
+CREATE TABLE comentarios(
+	id_comentario INT NOT NULL,
+	id_evento INT NOT NULL,
+	nombre VARCHAR(80) NOT NULL,
+	email VARCHAR(320) NOT NULL,
+	fecha DATETIME NOT NULL,
+	comentario VARCHAR(512) NOT NULL,
+	CONSTRAINT fk_evento_comentario FOREIGN KEY (id_evento) REFERENCES eventos(id_evento),
+	CONSTRAINT pk_comentario PRIMARY KEY(id_evento, id_comentario)
+);
+# source ./www/db/create_comentarios.sql;
+
+# Creamos la tabla de palabrotas
+CREATE TABLE palabrotas(
+	id_palabrota INT AUTO_INCREMENT PRIMARY KEY,
+	palabrota VARCHAR(25) NOT NULL
+);
+# source ./www/db/create_palabrotas.sql;
+
+# Insertamos datos de algunos eventos
+INSERT INTO eventos(nombre, organizador, fecha, hora, lugar, url, descripcion, url_portada)
+VALUES
+	('El espacio',		'Asociación de fotografía del espacio',		'2021-06-23', '23:30:00', 'Mirador de San Miguel Alto', 'https://www.elespacio.com', 		'descripcion', '/img/stars.jpg'),
+	('Los animales', 	'Asociación de fotografía de animales', 	'2021-06-30', '17:15:00', 'Parque de los animales', 	'https://www.losanimales.com', 		'descripcion', '/img/animals.jpg'),
+	('Los retratos', 	'Asociación de fotografía de retratos', 	'2021-07-01', '12:30:00', 'Parque de los retratos', 	'https://www.losretratos.com', 		'descripcion', '/img/portrait.jpg'),
+	('Los monumentos', 	'Asociación de fotografía de monumentos', 	'2021-07-01', '19:00:00', 'Parque de los monumentos', 	'https://www.losmonumentos.com', 	'descripcion', '/img/alhambra.jpg'),
+	('Los mares', 		'Asociación de fotografía de mares', 		'2021-07-04', '06:30:00', 'Parque de los mares', 		'https://www.losmares.com', 		'descripcion', '/img/palms.jpg'),
+	('Los lagos', 		'Asociación de fotografía de lagos', 		'2021-07-08', '09:45:00', 'Parque de los lagos', 		'https://www.loslagos.com', 		'descripcion', '/img/landscape.jpg'),
+	('El frío', 		'Asociación de fotografría del frío', 		'2021-07-09', '21:00:00', 'Parque del frío', 			'https://www.elfrio.com', 			'descripcion', '/img/landscape.jpg'),
+	('Los relojes', 	'Asociación de fotografía de relojes', 		'2021-08-01', '18:15:00', 'Parque de los relojes', 		'https://www.losrelojes.com', 		'descripcion', '/img/clock.jpg'),
+	('Los ojos', 		'Asociación de fotografía de ojos', 		'2021-08-07', '12:45:00', 'Parque de los ojos', 		'https://www.losojos.com', 			'descripcion', '/img/eyes.jpg');
+# source ./www/db/insert_eventos.sql;
+
+# Insertamos datos de algunas imágenes
+INSERT INTO imagenes(id_imagen, id_evento, autor, year, descripcion, path)
+VALUES
+	(1, 1, "ESA", '2020', "Space photo", '/img/space1color.jpg'),
+	(2, 1, "ESA", '2021', "Space photo", '/img/space2color.jpg');
+# source ./www/db/insert_imagenes.sql;
+
+# Insertamos datos de algunos comentarios
+INSERT INTO comentarios(id_comentario, id_evento, nombre, email, fecha, comentario)
+VALUES
+	(1, 1, "Juan Pérez",		"juanperez@gmail.com"		, '2021-04-19 19:23:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nisi arcu, volutpat ut urna eu, tincidunt fermentum elit. Maecenas tellus ipsum, sodales vitae lacus ac, dictum finibus eros. Vestibulum vel euismod ex, a luctus nulla. Mauris sed eros feugiat, feugiat orci vel, tempor tortor.'),
+	(2, 1, "Antonio Sánchez",	"antoniosanchez@gmail.com"	, '2021-03-25 13:01:00', 'Nam ornare erat at posuere cursus. Aenean et laoreet dolor. Morbi ultrices, mi vel pretium suscipit, augue tortor varius lorem, gravida ultricies lacus risus id justo.');
+# source ./www/db/insert_comentarios.sql;
+
+# Insertamos datos de algunas palabrotas
+INSERT INTO palabrotas(palabrota)
+VALUES
+	("tonto"),
+	("gilipollas"),
+	("joder"),
+	("coño"),
+	("mierda"),
+	("desgraciado"),
+	("puta"),
+	("subnormal"),
+	("cipote"),
+	("mentiroso"),
+	("hitler");
+# source ./www/db/insert_palabrotas.sql;
+
+# Comprobamos los datos introducidos
+SELECT * FROM eventos;

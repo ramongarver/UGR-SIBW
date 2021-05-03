@@ -41,6 +41,15 @@ function enviarComentario() {
     // Añadimos el nuevo comentario a los comentarios
     let comentarios = document.getElementById("comentarios");
     comentarios.insertBefore(nuevoComentario, comentarios.firstChild);
+
+    limpiarFormulario();
+}
+
+// Limpiar formulario
+function limpiarFormulario() {
+    document.getElementById("nombre").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("texto-comentario").value = "";
 }
 
 // Crear comentario
@@ -80,14 +89,11 @@ function verificarEmail(email) {
 }
 
 // Filtrar palabrotas en la escritura de un comentario
-function filtrarPalabrotas() {
-    const PALABROTAS = ["tonto", "gilipollas", "joder", "coño", "mierda",
-                        "desgraciado", "puta", "subnormal", "cipote", "mentiroso", "hitler"];
-
+function filtrarPalabrotas(palabrotas) {
     let texto = document.getElementById("texto-comentario").value;
-    for (const palabra of PALABROTAS) {
-         if (texto.match(palabra)) {
-            document.getElementById("texto-comentario").value = texto.replace(palabra, "*".repeat(palabra.length));
+    for (const palabra of palabrotas) {
+         if (texto.match(palabra.palabrota)) {
+            document.getElementById("texto-comentario").value = texto.replace(palabra.palabrota, "*".repeat(palabra.palabrota.length));
         }
     }
 }
