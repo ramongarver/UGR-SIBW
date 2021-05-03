@@ -177,14 +177,19 @@ function monthToText(date) {
 
 // Formatear fecha para comentario
 function getFormattedDate() {
-    const now = new Date;
+    const now = new Date().toISOString().
+                replace(/T/, ' ').      // replace T with a space
+                replace(/\..+/, '')     // delete the dot and everything after
 
+    /*  ... Otra forma de formateo diferente ...
     const hours = ("0" + now.getHours()).slice(-2);
     const minutes = ("0" + now.getMinutes()).slice(-2);
     const day = now.getDate();
     const weekDay = dayToText(now);
     const month = monthToText(now);
     const year = now.getFullYear();
-
     return weekDay + " " + day + " de " + month + " de " + year + " a las " + hours + ":" + minutes;
+    */
+
+    return now;
 }

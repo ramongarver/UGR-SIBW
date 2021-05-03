@@ -12,7 +12,7 @@ CREATE DATABASE events;
 CREATE USER 'admin'@'%' IDENTIFIED BY 'admin';
 
 # Damos permisos a nuestro usuario para poder trabajar con él (y no entrar como root ¡peligroso!)
-GRANT CREATE, REFERENCES, DELETE, DROP, INDEX, INSERT, SELECT, UPDATE ON events.* TO 'admin'@'%';
+GRANT CREATE, REFERENCES, LOCK TABLES, DELETE, DROP, INDEX, INSERT, SELECT, UPDATE ON events.* TO 'admin'@'%';
 
 # Salimos del cliente SQL
 exit;
@@ -104,7 +104,8 @@ VALUES
 INSERT INTO imagenes(id_imagen, id_evento, autor, year, descripcion, path)
 VALUES
 	(1, 1, "ESA", '2020', "Space photo", '/img/space1color.jpg'),
-	(2, 1, "ESA", '2021', "Space photo", '/img/space2color.jpg');
+	(2, 1, "ESA", '2021', "Space photo", '/img/space2color.jpg'),
+	(3, 2, "AnimalsPH", '2017', "Tiger photo", '/img/tiger.jpg');
 # source ./www/db/insert_imagenes.sql;
 
 # Insertamos datos de algunos comentarios
@@ -132,3 +133,6 @@ VALUES
 
 # Comprobamos los datos introducidos
 SELECT * FROM eventos;
+
+# Exportamos la base de datos
+mysqldump --no-tablespaces -h 127.0.0.1 -P 3307 -u admin -p events > database-events.sql
