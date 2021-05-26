@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+    {% block title %} Edición de perfil - Events X VSCO {% endblock %}
+
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/credenciales.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/formulario.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/boton.css"/>
+    {% endblock %}
+
+    {% block content %}
+        <main>
+            <div class="contenedor-login">
+                <div id="titulo-update" class="titulo-form">
+                    <h2>Actualizar</h2>
+                </div>
+                <div id="contenedor-form-update" class="contenedor-form">
+                    <form action="../update.php" method="post">
+                        <div class="input">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username"/>
+                        </div>
+                        <div class="input">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" readonly/>
+                        </div>
+                        <div class="input">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email"/>
+                        </div>
+                        <div class="input">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre"/>
+                        </div>
+                        <div class="input">
+                            <label for="apellidos">Apellidos</label>
+                            <input type="text" id="apellidos" name="apellidos"/>
+                        </div>
+                        <div class="input">
+                            <label for="genero">Género</label>
+                            <div id="genero">
+                                <input type="radio" id="hombre" name="genero" value="H"/>
+                                <label for="hombre">Hombre</label>
+                                <input type="radio" id="mujer" name="genero" value="M"/>
+                                <label for="mujer">Mujer</label>
+                                <input type="radio" id="otro" name="genero" value="O"/>
+                                <label for="otro">Otro</label>
+                            </div>
+                        </div>
+                        <div class="input">
+                            <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" readonly/>
+                        </div>
+                        <div class="input">
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" id="telefono" name="telefono"/>
+                        </div>
+                        <input id="boton-update" class="boton" type="submit" value="Actualizar"/>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+    <script src="/js/rellenarform.js"></script>
+    <script>rellenarForm({{ usuario|json_encode|raw }})</script>
+    {% endblock %}
+

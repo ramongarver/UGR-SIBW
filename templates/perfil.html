@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+    {% block title %} Perfil - Events X VSCO {% endblock %}
+
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/perfil.css"/>
+    {% endblock %}
+
+    {% block content %}
+        <main> <!-- Parte principal de la web | Presentación -->
+            <div id="contenedor-perfil" class="contenedor-perfil">
+                <section id="perfil" class="contenedor-informacion">
+                    <h1>Perfil de usuario</h1>
+                    <p id="nombre-apellidos">{{ usuario.nombre }} {{ usuario.apellidos }} <span id="usuario">({{ usuario.username}})</span></p>
+                    <p id="email">Email: {{ usuario.email }}</p>
+                    <p id="telefono">Teléfono: {{ usuario.telefono }}</p>
+                    <p id="genero">Género: {{ usuario.genero }}</p>
+                    <p id="fecha-nacimiento">Nacido el {{ usuario.fecha_nacimiento }}</p>
+                    <p id="fecha-registro">Usuario desde el {{ usuario.fecha_registro }}</p>
+                    <p id="rol">Rol: {{ usuario.rol }}</p>
+                </section>
+                <section id="acciones" class="contenedor-informacion">
+                    <h1>Panel de control</h1>
+                    <p><a href="/perfil/editar">Editar información de usuario</a></p>
+                    {% if (usuario.rol == "Moderador") or (usuario.rol == "Moderador y Gestor") or (usuario.rol == "Superusuario") %}
+                        <p><a href="">Editar comentarios</a></p>
+                    {% endif %}
+                    {% if (usuario.rol == "Gestor") or (usuario.rol == "Moderador y Gestor") or (usuario.rol == "Superusuario") %}
+                        <p><a href="">Editar eventos</a></p>
+                    {% endif %}
+                    {% if usuario.rol == "Superusuario" %}
+                        <p><a href="">Editar roles</a></p>
+                    {% endif %}
+                </section>
+            </div>
+        </main>
+    {% endblock %}

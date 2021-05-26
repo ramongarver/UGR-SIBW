@@ -33,11 +33,28 @@ header {
     display: inline-block;
     position: relative;
     float: right;
-    padding: 1.5% 4% 1% 1%;
+    padding: 1.5% 2% 1% 1%;
 }
 
 #titulo h1 {
     margin: 0;
+}
+
+#sesion {
+    display: inline-block;
+    position: relative;
+    float: right;
+    padding: 2.1% 4% 1% 0%;
+}
+
+#sesion h2 {
+    margin: 0 0 0 0;
+    font-weight: normal;
+    font-size: 100%;
+}
+
+#sesion h2:hover {
+    font-weight: bold;
 }
 
 .titulo-articulo {
@@ -63,7 +80,7 @@ nav {
 
 #menu {
     display: inline-block;
-    width: 65vw;
+    width: 55vw;
     padding: 1.4% 1% 1% 1%;
 }
 

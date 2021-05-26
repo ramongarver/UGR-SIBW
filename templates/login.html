@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+    {% block title %} Login - Events X VSCO {% endblock %}
+
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/credenciales.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/formulario.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/boton.css"/>
+    {% endblock %}
+
+    {% block content %}
+        <main>
+            <div class="contenedor-login">
+                <div id="titulo-login" class="titulo-form">
+                    <h2>Iniciar sesión</h2>
+                </div>
+                <div id="contenedor-form-login" class="contenedor-form">
+                    <form action="./login.php" method="post">
+                        <div class="input">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username"/>
+                        </div>
+                        <div class="input">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password"/>
+                        </div>
+                        <input id="boton-login" class="boton" type="submit" value="Loguearse"/>
+                        <div class="input">
+                            <p>¿No tienes una cuenta?</p>
+                            <p><a href="/register" id="enlace-registrarse">Registrarse</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    {% endblock %}

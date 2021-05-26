@@ -17,7 +17,7 @@
     echo $twig->render('evento-imprimir.html', ['evento' => $evento, 'imagenes' => $imagenes]);
   }
   else {
-    echo $twig->render('evento.html', ['evento' => $evento, 'imagenes' => $imagenes, 'comentarios' => $comentarios, 'palabrotas' => $palabrotas]);
+    echo $twig->render('evento.html', ['evento' => $evento, 'imagenes' => $imagenes, 'comentarios' => $comentarios, 'palabrotas' => $palabrotas, 'sesion' => $sesion]);
   }
 
   $application->cerrarConexion();

@@ -40,6 +40,12 @@ use events;
 # palabrotas (id_palabrota, palabrota)
 #             ---- CP ----
 
+# usuarios (id_usuario, nombre, pass, id_rol)
+#           --- CP ---                - CE -
+
+# roles (id_rol, moderador, gestor, superusuario)
+#        - CP -  ------------- CC --------------
+
 # Creamos la tabla de los eventos
 CREATE TABLE eventos(
 	id_evento INT AUTO_INCREMENT PRIMARY KEY,
@@ -86,6 +92,33 @@ CREATE TABLE palabrotas(
 );
 # source ./www/db/create_palabrotas.sql;
 
+# Creamos la tabla de roles
+CREATE TABLE roles(
+    id_rol INT AUTO_INCREMENT PRIMARY KEY,
+    moderador BOOLEAN NOT NULL,
+    gestor BOOLEAN NOT NULL,
+    superusuario BOOLEAN NOT NULL,
+    CONSTRAINT uk_mod_ges_sup UNIQUE (moderador, gestor, superusuario)
+);
+# source ./www/db/create_roles.sql;
+
+# Creamos la tabla de usuarios
+CREATE TABLE usuarios(
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(31) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    id_rol INT NOT NULL,
+    nombre VARCHAR(31) NOT NULL,
+    apellidos VARCHAR(63) NOT NULL,
+    email VARCHAR(320) NOT NULL,
+    telefono VARCHAR(31) NOT NULL,
+    fecha_nacimiento DATE NOT NULL,
+    fecha_registro DATE NOT NULL,
+    genero ENUM('H', 'M', 'O') NOT NULL,
+    CONSTRAINT fk_usuario_rol FOREIGN KEY (id_rol) REFERENCES roles(id_rol)
+);
+# source ./www/db/create_usuarios.sql;
+
 # Insertamos datos de algunos eventos
 INSERT INTO eventos(nombre, organizador, fecha, hora, lugar, url, descripcion, url_portada)
 VALUES
@@ -131,8 +164,25 @@ VALUES
 	("hitler");
 # source ./www/db/insert_palabrotas.sql;
 
+# Insertamos datos de roles
+INSERT INTO roles(moderador, gestor, superusuario)
+VALUES
+	(false, false, false),
+    (true, false, false),
+    (false, true, false),
+    (true, true, false),
+    (false, false, true);
+# source ./www/db/insert_roles.sql;
+
+# Insertamos datos de usuarios
+
+# source ./www/db/insert_usuarios.sql;
+
 # Comprobamos los datos introducidos
 SELECT * FROM eventos;
+
+SELECT id_rol, IF(moderador, 'TRUE', 'FALSE') moderador, IF (gestor, 'TRUE', 'FALSE') gestor, IF(superusuario, 'TRUE', 'FALSE') superusuario FROM roles order by id_rol;
+
 
 # Exportamos la base de datos
 mysqldump --no-tablespaces -h 127.0.0.1 -P 3307 -u admin -p events > database-events.sql

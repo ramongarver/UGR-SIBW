@@ -1,0 +1,13 @@
+/***** || BOTON *****/
+.boton {
+    background-color: white;
+    border-color: white;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-radius: 1vw;
+    font-family: Quicksand;
+    font-size: 75%;
+    font-weight: bold;
+    font-style: italic;
+}
+/**************************/

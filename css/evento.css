@@ -91,25 +91,4 @@
 .fecha-comentario {
     font-style: italic;
 }
-
-.input {
-    display: block;
-}
-
-.input label {
-    font-weight: bold;
-}
-
-.input input, .input textarea {
-    display: block;
-    font-family: Quicksand;
-    font-size: 1vw;
-    resize: none;
-}
-
-#texto-comentario {
-    display: block;
-    width: 75%;
-    height: 15vh;
-}
 /**************************/

@@ -1,4 +1,6 @@
 <?php
+    require_once "utilidades.php";
+
     class AppDB {
         private $host = "mysql";
         private $usuario = "admin";
@@ -11,13 +13,11 @@
         }
 
         public function obtenerEventos() {
-            $this->establecerConexion();
             $infoEventos = $this->conexion->query("SELECT id_evento, nombre, fecha, url_portada FROM eventos");
             return $infoEventos->fetch_all(MYSQLI_ASSOC);
         }
 
         public function obtenerEvento($idEvento) {
-            $this->establecerConexion();
             $infoEvento = $this->conexion->prepare("SELECT id_evento, nombre, organizador, fecha, hora, lugar, url, descripcion FROM eventos WHERE id_evento = ?");
             $infoEvento->bind_param("i", $idEvento);
             $infoEvento->execute();
@@ -37,7 +37,6 @@
         }
 
         public function obtenerImagenes($idEvento) {
-            $this->establecerConexion();
             $infoImagenes = $this->conexion->prepare("SELECT id_imagen, autor, year, descripcion, path FROM imagenes WHERE id_evento = ?");
             $infoImagenes->bind_param("i", $idEvento);
             $infoImagenes->execute();
@@ -54,9 +53,61 @@
         }
 
         public function obtenerPalabrotas() {
-            $this->establecerConexion();
             $infoPalabrotas = $this->conexion->query("SELECT palabrota FROM palabrotas");
             return $infoPalabrotas->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function comprobarLogin($username, $password) {
+            $usuarios = $this->obtenerUsuarios();
+
+            for ($i = 0; $i < sizeof($usuarios); $i++) {
+                if ($usuarios[$i]['username'] === $username) {
+                    return password_verify($password, $usuarios[$i]['password']);
+                }
+            }
+
+            return false;
+        }
+
+        public function obtenerUsuarios() {
+            $infoUsuarios = $this->conexion->query("SELECT * FROM usuarios");
+            return $infoUsuarios->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function obtenerUsuario($username) {
+            $infoUsuario = $this->conexion->prepare("SELECT * FROM usuarios WHERE username = ?");
+            $infoUsuario->bind_param("s", $username);
+            $infoUsuario->execute();
+            $infoUsuario = $infoUsuario->get_result();
+            $infoUsuario = $infoUsuario->fetch_all(MYSQLI_ASSOC);
+            $infoUsuario[0]['rol'] = id_roltoRol($infoUsuario[0]['id_rol']);
+            $infoUsuario[0]['genero'] = charGenerotoStringGenero($infoUsuario[0]['genero']);
+            return $infoUsuario;
+        }
+
+        public function existeUsuario($username) {
+            $infoUsuario = $this->conexion->prepare("SELECT username FROM usuarios WHERE username = ?");
+            $infoUsuario->bind_param("s", $username);
+            $infoUsuario->execute();
+            return $infoUsuario->get_result()->num_rows == 1;
+        }
+
+        public function registrarUsuario($usuario) {
+            $hash = password_hash($usuario['password'], PASSWORD_DEFAULT);
+            $fecha_registro = date('Y-m-d', strtotime("+2 hours"));
+
+            $registroUsuario = $this->conexion->prepare("INSERT INTO usuarios(username, password, id_rol, nombre, apellidos, 
+                     email, genero, fecha_nacimiento, telefono, fecha_registro) 
+                     VALUES
+                     (?, ?, '1', ?, ?, ?, ?, ?, ?, ?)");
+            $registroUsuario->bind_param("sssssssss", $usuario['username'], $hash, $usuario['nombre'], $usuario['apellidos'], $usuario['email'], $usuario['genero'], $usuario['fecha_nacimiento'], $usuario['telefono'], $fecha_registro);
+            return $registroUsuario->execute();
+        }
+
+        public function actualizarUsuario($usuario) {
+            $actualizacionUsuario = $this->conexion->prepare("UPDATE usuarios SET username = ?, email = ?, nombre = ?, apellidos = ?, telefono = ?, genero = ? WHERE username = ?");
+            $actualizacionUsuario->bind_param("sssssss", $usuario['username'], $usuario['email'], $usuario['nombre'], $usuario['apellidos'], $usuario['telefono'], $usuario['genero'], $usuario['previousUsername']);
+            return $actualizacionUsuario->execute();
         }
 
         public function establecerConexion() {
