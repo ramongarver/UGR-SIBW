@@ -36,6 +36,60 @@
             return $evento;
         }
 
+        public function obtenerNombreEventos() {
+            $infoEventos = $this->conexion->query("SELECT id_evento, nombre FROM eventos");
+            return $infoEventos->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function obtenerUrlPortada($idEvento) {
+            $infoUrlPortada = $this->conexion->prepare("SELECT url_portada FROM eventos WHERE id_evento = ?");
+            $infoUrlPortada->bind_param("i", $idEvento);
+            $infoUrlPortada->execute();
+            $infoUrlPortada = $infoUrlPortada->get_result();
+            $infoUrlPortada = $infoUrlPortada->fetch_assoc();
+            return $infoUrlPortada['url_portada'];
+        }
+
+        public function crearEvento($idEvento, $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $url_imagenes) {
+            $creacionEvento = $this->conexion->prepare("INSERT INTO eventos(id_evento, nombre, organizador, lugar, fecha, hora, url, descripcion, url_portada) 
+                     VALUES
+                     (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $creacionEvento->bind_param("issssssss", $idEvento, $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada);
+            if(!$creacionEvento->execute()) {
+                return false;
+            }
+            if (!$this->crearImagenes($idEvento, $url_imagenes)) {
+                return false;
+            }
+            return true;
+        }
+
+        public function actualizarEvento($idEvento, $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $url_imagenes) {
+            if($url_imagenes !== null) {
+                $this->eliminarImagenesEventoNoCoincidentes($idEvento, $this->obtenerUrlImagenes($idEvento));
+                if(!$this->crearImagenes($idEvento, $url_imagenes)) {
+                    return false;
+                }
+            }
+
+            if($url_portada === null) {
+                $url_portada = $this->obtenerUrlPortada($idEvento);
+            }
+            else {
+                $url_portada_vieja = $this->obtenerUrlPortada($idEvento);
+                if ($url_portada !== $url_portada_vieja AND !in_array($url_portada_vieja, $this->obtenerUrlImagenes($idEvento))) {
+                    unlink("." . $url_portada_vieja);
+                }
+            }
+
+            $actualizacionEvento = $this->conexion->prepare("UPDATE eventos SET nombre = ?, organizador = ?, lugar = ?, fecha = ?, hora = ?, url = ?, descripcion = ?, url_portada = ? WHERE id_evento = ?");
+            $actualizacionEvento->bind_param("ssssssssi", $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $idEvento);
+            if(!$actualizacionEvento->execute()) {
+                return false;
+            }
+            return true;
+        }
+
         public function obtenerImagenes($idEvento) {
             $infoImagenes = $this->conexion->prepare("SELECT id_imagen, autor, year, descripcion, path FROM imagenes WHERE id_evento = ?");
             $infoImagenes->bind_param("i", $idEvento);
@@ -44,17 +98,206 @@
             return $infoImagenes->fetch_all(MYSQLI_ASSOC);
         }
 
+        public function obtenerListaComentarios() {
+            $infoEventosComentarios = $this->obtenerNombreEventos();
+
+            for ($i = 0; $i < sizeof($infoEventosComentarios); $i++) {
+                $infoEventosComentarios[$i]['comentarios'] = $this->obtenerComentarios($infoEventosComentarios[$i]['id_evento']);
+            }
+
+            return $infoEventosComentarios;
+        }
+
         public function obtenerComentarios($idEvento) {
-            $infoComentarios = $this->conexion->prepare("SELECT id_comentario, nombre, fecha, comentario FROM comentarios WHERE id_evento = ?");
+            $infoComentarios = $this->conexion->prepare("SELECT id_comentario, id_moderador, nombre, fecha, comentario FROM comentarios NATURAL JOIN usuarios WHERE id_evento = ? ORDER BY fecha");
             $infoComentarios->bind_param("i", $idEvento);
             $infoComentarios->execute();
             $infoComentarios = $infoComentarios->get_result();
             return $infoComentarios->fetch_all(MYSQLI_ASSOC);
         }
 
+        public function obtenerComentario($idEvento, $idComentario) {
+            $infoComentario = $this->conexion->prepare("SELECT id_evento, id_comentario, id_moderador, nombre, fecha, email, comentario FROM comentarios NATURAL JOIN usuarios WHERE id_evento = ? AND id_comentario = ?");
+            $infoComentario->bind_param("ii", $idEvento, $idComentario);
+            $infoComentario->execute();
+            $infoComentarios = $infoComentario->get_result();
+            return $infoComentarios->fetch_all(MYSQLI_ASSOC);
+        }
+
         public function obtenerPalabrotas() {
             $infoPalabrotas = $this->conexion->query("SELECT palabrota FROM palabrotas");
             return $infoPalabrotas->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function crearComentario($idEvento, $idComentario, $idUsuario, $fecha, $comentario) {
+            $creacionComentario = $this->conexion->prepare("INSERT INTO comentarios(id_evento, id_comentario, id_usuario, fecha, comentario) 
+                     VALUES
+                     (?, ?, ?, ?, ?)");
+            $creacionComentario->bind_param("iiiss", $idEvento, $idComentario, $idUsuario, $fecha, $comentario);
+            return $creacionComentario->execute();
+        }
+
+        public function eliminarComentario($idEvento, $idComentario) {
+            $eliminarComentario = $this->conexion->prepare("DELETE FROM comentarios WHERE id_evento = ? AND id_comentario = ?");
+            $eliminarComentario->bind_param("ii", $idEvento, $idComentario);
+            return $eliminarComentario->execute();
+        }
+
+        public function eliminarComentarios($idEvento) {
+            $eliminarComentarios = $this->conexion->prepare("DELETE FROM comentarios WHERE id_evento = ?");
+            $eliminarComentarios->bind_param("i", $idEvento);
+            return $eliminarComentarios->execute();
+        }
+
+        public function actualizarComentario($idEvento, $idComentario, $idModerador, $comentario) {
+            $actualizacionComentario = $this->conexion->prepare("UPDATE comentarios SET comentario = ?, id_moderador = ? WHERE id_evento = ? AND id_comentario = ?");
+            $actualizacionComentario->bind_param("siii", $comentario, $idModerador, $idEvento, $idComentario);
+            return $actualizacionComentario->execute();
+        }
+
+        public function crearImagen($idEvento, $url_imagen) {
+            $idImagen = $this->conexion->query("SELECT max(id_imagen) FROM imagenes");
+            $idImagen = $idImagen->fetch_all(MYSQLI_ASSOC)[0]['max(id_imagen)'];
+            if ($idImagen == null) { $idImagen = 1; }
+            else { $idImagen = intval($idImagen) + 1; }
+
+            $creacionImagen = $this->conexion->prepare("INSERT INTO imagenes(id_imagen, id_evento, autor, year, descripcion, path) 
+                     VALUES
+                     (?, ?, 'Autor Desconocido', '1969', 'Descripción', ?)");
+            $creacionImagen->bind_param("iis", $idImagen, $idEvento, $url_imagen);
+            return $creacionImagen->execute();
+        }
+
+        public function crearImagenes($idEvento, $url_imagenes) {
+            if ($url_imagenes !== null) {
+                for ($i = 0; $i < sizeof($url_imagenes); $i++) {
+                    if(!$this->crearImagen($idEvento, $url_imagenes[$i])) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public function eliminarPortadaEvento($idEvento) {
+            $rutaPortada = $this->conexion->prepare("SELECT url_portada FROM eventos WHERE id_evento = ?");
+            $rutaPortada->bind_param("i", $idEvento);
+            if(!$rutaPortada->execute()) {
+                return false;
+            }
+
+            $rutaPortada = $rutaPortada->get_result();
+            $rutaPortada = $rutaPortada->fetch_all(MYSQLI_ASSOC);
+            unlink("." . $rutaPortada[0]['url_portada']);
+
+            return true;
+        }
+
+        public function eliminarImagenesEvento($idEvento) {
+            $rutasImagenes = $this->conexion->prepare("SELECT path FROM imagenes WHERE id_evento = ?");
+            $rutasImagenes->bind_param("i", $idEvento);
+            if(!$rutasImagenes->execute()) {
+                return false;
+            }
+            $rutasImagenes = $rutasImagenes->get_result();
+            $rutasImagenes = $rutasImagenes->fetch_all(MYSQLI_ASSOC);
+            for ($i = 0; $i < sizeof($rutasImagenes); $i++) {
+                unlink("." . $rutasImagenes[$i]['path']);
+            }
+
+            $eliminarImagenes = $this->conexion->prepare("DELETE FROM imagenes WHERE id_evento = ?");
+            $eliminarImagenes->bind_param("i", $idEvento);
+            if(!$eliminarImagenes->execute()) {
+                return false;
+            }
+
+            return true;
+        }
+
+        public function eliminarImagenesEventoNoCoincidentes($idEvento, $url_imagenes) {
+            $rutasImagenes = $this->conexion->prepare("SELECT path FROM imagenes WHERE id_evento = ?");
+            $rutasImagenes->bind_param("i", $idEvento);
+            if(!$rutasImagenes->execute()) {
+                return false;
+            }
+            $rutasImagenes = $rutasImagenes->get_result();
+            $rutasImagenes = $rutasImagenes->fetch_all(MYSQLI_ASSOC);
+            for ($i = 0; $i < sizeof($rutasImagenes); $i++) {
+                if (!in_array($rutasImagenes[$i]['path'], $url_imagenes)) {
+                    unlink("." . $rutasImagenes[$i]['path']);
+                }
+            }
+
+            $eliminarImagenes = $this->conexion->prepare("DELETE FROM imagenes WHERE id_evento = ?");
+            $eliminarImagenes->bind_param("i", $idEvento);
+            if(!$eliminarImagenes->execute()) {
+                return false;
+            }
+
+            return true;
+        }
+
+        public function obtenerUrlImagenes($idEvento) {
+            $rutasImagenes = $this->conexion->prepare("SELECT path FROM imagenes WHERE id_evento = ?");
+            $rutasImagenes->bind_param("i", $idEvento);
+            if(!$rutasImagenes->execute()) {
+                return false;
+            }
+            $rutasImagenes = $rutasImagenes->get_result();
+            $rutasImagenes = $rutasImagenes->fetch_all(MYSQLI_ASSOC);
+            for ($i = 0; $i < sizeof($rutasImagenes); $i++) {
+                $rutasImagenes[$i] = $rutasImagenes[$i]['path'];
+            }
+
+            return $rutasImagenes;
+        }
+
+        // Elimina tanto portada como imágenes interiores de un evento
+        public function eliminarImagenes($idEvento) {
+            if(!$this->eliminarImagenesEvento($idEvento)) {
+                return false;
+            }
+            if(!$this->eliminarPortadaEvento($idEvento)) {
+                return false;
+            }
+            return true;
+        }
+
+        public function obtenerEtiquetas($idEvento) {
+            $infoEtiquetas = $this->conexion->prepare("SELECT id_etiqueta, id_evento, etiqueta FROM etiquetas WHERE id_evento = ?");
+            $infoEtiquetas->bind_param("i", $idEvento);
+            $infoEtiquetas->execute();
+            $infoEtiquetas = $infoEtiquetas->get_result();
+            return $infoEtiquetas->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function crearEtiqueta($idEvento, $idEtiqueta, $etiqueta) {
+            $creacionEtiqueta = $this->conexion->prepare("INSERT INTO etiquetas(id_evento, id_etiqueta, etiqueta) 
+                     VALUES
+                     (?, ?, ?)");
+            $creacionEtiqueta->bind_param("iis", $idEvento, $idEtiqueta, $etiqueta);
+            return $creacionEtiqueta->execute();
+        }
+
+        public function eliminarEtiqueta($idEvento, $idEtiqueta) {
+            $eliminarEtiqueta = $this->conexion->prepare("DELETE FROM etiquetas WHERE id_evento = ? AND id_etiqueta = ?");
+            $eliminarEtiqueta->bind_param("ii", $idEvento, $idEtiqueta);
+            return $eliminarEtiqueta->execute();
+        }
+
+        public function eliminarEtiquetas($idEvento) {
+            $eliminarEtiquetas = $this->conexion->prepare("DELETE FROM etiquetas WHERE id_evento = ?");
+            $eliminarEtiquetas->bind_param("i", $idEvento);
+            return $eliminarEtiquetas->execute();
+        }
+
+        public function eliminarEvento($idEvento) {
+            $this->eliminarComentarios($idEvento);
+            $this->eliminarImagenes($idEvento);
+            $this->eliminarEtiquetas($idEvento);
+            $eliminarEvento = $this->conexion->prepare("DELETE FROM eventos WHERE id_evento = ?");
+            $eliminarEvento->bind_param("i", $idEvento);
+            return $eliminarEvento->execute();
         }
 
         public function comprobarLogin($username, $password) {
@@ -85,6 +328,15 @@
             return $infoUsuario;
         }
 
+        public function obtenerUsuariosRol() {
+            $infoUsuario = $this->conexion->query("SELECT username, id_rol FROM usuarios");
+            $infoUsuario = $infoUsuario->fetch_all(MYSQLI_ASSOC);
+            for ($i = 0; $i < sizeof($infoUsuario); $i++) {
+                $infoUsuario[$i]['rol'] = id_roltoRol($infoUsuario[$i]['id_rol']);
+            }
+            return $infoUsuario;
+        }
+
         public function existeUsuario($username) {
             $infoUsuario = $this->conexion->prepare("SELECT username FROM usuarios WHERE username = ?");
             $infoUsuario->bind_param("s", $username);
@@ -108,6 +360,12 @@
             $actualizacionUsuario = $this->conexion->prepare("UPDATE usuarios SET username = ?, email = ?, nombre = ?, apellidos = ?, telefono = ?, genero = ? WHERE username = ?");
             $actualizacionUsuario->bind_param("sssssss", $usuario['username'], $usuario['email'], $usuario['nombre'], $usuario['apellidos'], $usuario['telefono'], $usuario['genero'], $usuario['previousUsername']);
             return $actualizacionUsuario->execute();
+        }
+
+        public function editarRolUsuario($username, $idRol) {
+            $edicionRolUsuario = $this->conexion->prepare("UPDATE usuarios SET id_rol = ? WHERE username = ?");
+            $edicionRolUsuario->bind_param("is", $idRol,$username);
+            return $edicionRolUsuario->execute();
         }
 
         public function establecerConexion() {

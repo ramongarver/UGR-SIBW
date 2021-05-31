@@ -63,6 +63,19 @@ header {
     font-weight: bold;
 }
 
+.titulo-articulo a {
+    display: inline-block;
+    width: 1.8%;
+}
+
+#icono-crear-evento {
+    width: 100%;
+}
+
+#icono-crear-evento:hover {
+    opacity: 0.7;
+}
+
 nav {
     position: fixed;
     min-width: 100%;

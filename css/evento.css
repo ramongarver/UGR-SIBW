@@ -91,4 +91,51 @@
 .fecha-comentario {
     font-style: italic;
 }
+
+.comentario-modificado {
+    margin: 2%;
+    font-style: italic;
+    font-size: 75%;
+}
+
+.botones-acciones-evento {
+    margin: 2% 0 0 0;
+}
+
+.botones-acciones-comentarios {
+    display: inline-block;
+    margin-right: 2%;
+}
+
+.boton-accion-comentario {
+    width: 1.5vw;
+    margin: 1%;
+    opacity: 1.0;
+}
+
+.boton-accion-comentario:hover {
+    opacity: 0.7;
+}
+
+.etiquetas {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.botones-acciones-etiquetas {
+    display: inline-block;
+}
+
+.boton-accion-etiqueta {
+    width: 0.75vw;
+    opacity: 1.0;
+}
+
+.boton-accion-etiqueta:hover {
+    opacity: 0.7;
+}
+
+#enlace-crear-etiqueta {
+    display: inline-block;
+}
 /**************************/

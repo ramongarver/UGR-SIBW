@@ -27,6 +27,28 @@
                         {{ evento.fecha }} a las {{ evento.hora }} en {{ evento.lugar }}</p>
                     <p>{{ evento.descripcion }}</p>
                     <address id="web-organizador"><a href="{{ evento.url }}"><abbr>Visita la web del organizador</abbr></a></address>
+                    <p class="etiquetas">Etiquetas: <p class="etiquetas"></p>
+                        {% if usuario.rol and usuario.rol != 'Registrado' and usuario.rol != 'Moderador' %}
+                            <a id="enlace-crear-etiqueta" href="/evento/{{ evento.id_evento}}/crear-etiqueta"><img id="boton-crear-etiqueta" class="boton-accion-etiqueta" type="image" src="/img/addwhite.png" /></a>
+                        {% endif %}
+                    </p>
+                    {% if etiquetas %}
+                        <p>
+                            {% for etiqueta in etiquetas %}
+                                <div class="etiquetas">
+                                    {{ etiqueta.etiqueta }}
+                                    <form action="../borrarEtiqueta.php" method="post" class="botones-acciones-etiquetas">
+                                        <input id="id-evento-eliminar-etiqueta" name="idEvento" type="hidden" value={{ etiqueta.id_evento }} />
+                                        <input id="id-etiqueta-eliminar-etiqueta" name="idEtiqueta" type="hidden" value={{ etiqueta.id_etiqueta }} />
+                                        <input id="boton-eliminar-etiqueta" class="boton-accion-etiqueta" type="image" src="/img/deletewhite.png" />
+                                    </form>
+                                    {% if not loop.last %}
+                                        ,
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </p>
+                    {% endif %}
                 </div>
                 <div id="comparte" class="redes-sociales"> <!-- Comparte del evento -->
                     <p>¡Comparte el evento en tus redes sociales!</p>

@@ -6,11 +6,16 @@ $twig = new \Twig\Environment($loader);
 
 require_once './scripts/db.php';
 
-session_start();
-
 $application = new AppDB();
 
-$application->eliminarImagenesEvento(10);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $idEvento = $_POST['idEvento'];
+    $idEtiqueta = $_POST['idEtiqueta'];
+
+    if ($application->eliminarEtiqueta($idEvento, $idEtiqueta)) {
+        header("Location: /evento/$idEvento");
+    }
+}
 
 $application->cerrarConexion();
 ?>

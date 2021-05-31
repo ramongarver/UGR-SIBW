@@ -14,7 +14,11 @@
         </main>
 
         <article> <!-- Artículo de eventos -->
-            <h2 id="titulo-eventos" class="titulo-articulo">EVENTOS</h2> <!-- Encabezado del artículo (evento) -->
+            <h2 id="titulo-eventos" class="titulo-articulo">EVENTOS
+                {% if usuario.rol and usuario.rol != 'Registrado' and usuario.rol != 'Moderador' %}
+                    <a href="crear-evento"><img id="icono-crear-evento" src="/img/addwhite.png" alt="Añadir un evento"></a>
+                {% endif %}
+            </h2> <!-- Encabezado del artículo (evento) -->
             <div id="eventos"> <!-- Grid de eventos -->
                 {% for evento in eventos %}
                     <a href="evento/{{ evento.id_evento }}"><div id="evento{{ evento.id_evento }}" class="evento" style="background-image: url('..{{ evento.url_portada }}');">

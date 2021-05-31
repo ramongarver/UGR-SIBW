@@ -33,15 +33,19 @@ use events;
 #                     --- CE --
 #          ------- CP ---------
 
-# comentarios(id_comentario, id_evento, nombre, email, fecha, comentario)
-#							 --- CE --
+# comentarios(id_comentario, id_evento, id_usuario, id_moderador, fecha, comentario)
+#							 --- CE --  --- CE ---
 #             ---------- CP -----------
+
+# imagenes(id_etiqueta, id_evento, etiqueta)
+#                     --- CE --
+#          ------- CP ---------
 
 # palabrotas (id_palabrota, palabrota)
 #             ---- CP ----
 
-# usuarios (id_usuario, nombre, pass, id_rol)
-#           --- CP ---                - CE -
+# usuarios (id_usuario, username, password, id_rol, nombre, apellidos, email, telefono, fecha_nacimiento, fecha_registro, genero)
+#           --- CP ---                      - CE -
 
 # roles (id_rol, moderador, gestor, superusuario)
 #        - CP -  ------------- CC --------------
@@ -56,6 +60,7 @@ CREATE TABLE eventos(
 	lugar VARCHAR(100) NOT NULL,
 	url VARCHAR(512),
 	descripcion VARCHAR(1024),
+	etiquetas VARCHAR(255),
 	url_portada VARCHAR(512)
 );
 # source ./www/db/create_eventos.sql;
@@ -72,15 +77,26 @@ CREATE TABLE imagenes(
 );
 # source ./www/db/create_imagenes.sql;
 
+# Creamos la tabla de etiquetas
+CREATE TABLE etiquetas(
+	id_etiqueta INT UNIQUE NOT NULL,
+	id_evento INT NOT NULL,
+	etiqueta VARCHAR(50) UNIQUE NOT NULL,
+	CONSTRAINT fk_evento_etiqueta FOREIGN KEY (id_evento) REFERENCES eventos(id_evento),
+	CONSTRAINT pk_etiqueta PRIMARY KEY(id_evento, id_etiqueta)
+);
+# source ./www/db/create_etiquetas.sql;
+
 # Creamos la tabla de comentarios
 CREATE TABLE comentarios(
 	id_comentario INT NOT NULL,
 	id_evento INT NOT NULL,
-	nombre VARCHAR(80) NOT NULL,
-	email VARCHAR(320) NOT NULL,
+	id_usuario INT NOT NULL,
+	id_moderador INT NOT NULL DEFAULT -1,
 	fecha DATETIME NOT NULL,
 	comentario VARCHAR(512) NOT NULL,
 	CONSTRAINT fk_evento_comentario FOREIGN KEY (id_evento) REFERENCES eventos(id_evento),
+	CONSTRAINT fk_autor_comentario FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
 	CONSTRAINT pk_comentario PRIMARY KEY(id_evento, id_comentario)
 );
 # source ./www/db/create_comentarios.sql;
@@ -120,17 +136,17 @@ CREATE TABLE usuarios(
 # source ./www/db/create_usuarios.sql;
 
 # Insertamos datos de algunos eventos
-INSERT INTO eventos(nombre, organizador, fecha, hora, lugar, url, descripcion, url_portada)
+INSERT INTO eventos(id_evento, nombre, organizador, fecha, hora, lugar, url, descripcion, url_portada)
 VALUES
-	('El espacio',		'Asociación de fotografía del espacio',		'2021-06-23', '23:30:00', 'Mirador de San Miguel Alto', 'https://www.elespacio.com', 		'descripcion', '/img/stars.jpg'),
-	('Los animales', 	'Asociación de fotografía de animales', 	'2021-06-30', '17:15:00', 'Parque de los animales', 	'https://www.losanimales.com', 		'descripcion', '/img/animals.jpg'),
-	('Los retratos', 	'Asociación de fotografía de retratos', 	'2021-07-01', '12:30:00', 'Parque de los retratos', 	'https://www.losretratos.com', 		'descripcion', '/img/portrait.jpg'),
-	('Los monumentos', 	'Asociación de fotografía de monumentos', 	'2021-07-01', '19:00:00', 'Parque de los monumentos', 	'https://www.losmonumentos.com', 	'descripcion', '/img/alhambra.jpg'),
-	('Los mares', 		'Asociación de fotografía de mares', 		'2021-07-04', '06:30:00', 'Parque de los mares', 		'https://www.losmares.com', 		'descripcion', '/img/palms.jpg'),
-	('Los lagos', 		'Asociación de fotografía de lagos', 		'2021-07-08', '09:45:00', 'Parque de los lagos', 		'https://www.loslagos.com', 		'descripcion', '/img/landscape.jpg'),
-	('El frío', 		'Asociación de fotografría del frío', 		'2021-07-09', '21:00:00', 'Parque del frío', 			'https://www.elfrio.com', 			'descripcion', '/img/landscape.jpg'),
-	('Los relojes', 	'Asociación de fotografía de relojes', 		'2021-08-01', '18:15:00', 'Parque de los relojes', 		'https://www.losrelojes.com', 		'descripcion', '/img/clock.jpg'),
-	('Los ojos', 		'Asociación de fotografía de ojos', 		'2021-08-07', '12:45:00', 'Parque de los ojos', 		'https://www.losojos.com', 			'descripcion', '/img/eyes.jpg');
+	(1, 'El espacio',		'Asociación de fotografía del espacio',		'2021-06-23', '23:30:00', 'Mirador de San Miguel Alto', 'https://www.elespacio.com', 		'descripcion', '/img/stars.jpg'),
+	(2, 'Los animales', 	'Asociación de fotografía de animales', 	'2021-06-30', '17:15:00', 'Parque de los animales', 	'https://www.losanimales.com', 		'descripcion', '/img/animals.jpg'),
+	(3, 'Los retratos', 	'Asociación de fotografía de retratos', 	'2021-07-01', '12:30:00', 'Parque de los retratos', 	'https://www.losretratos.com', 		'descripcion', '/img/portrait.jpg'),
+	(4, 'Los monumentos', 	'Asociación de fotografía de monumentos', 	'2021-07-01', '19:00:00', 'Parque de los monumentos', 	'https://www.losmonumentos.com', 	'descripcion', '/img/alhambra.jpg'),
+	(5, 'Los mares', 		'Asociación de fotografía de mares', 		'2021-07-04', '06:30:00', 'Parque de los mares', 		'https://www.losmares.com', 		'descripcion', '/img/palms.jpg'),
+	(6, 'Los lagos', 		'Asociación de fotografía de lagos', 		'2021-07-08', '09:45:00', 'Parque de los lagos', 		'https://www.loslagos.com', 		'descripcion', '/img/landscape.jpg'),
+	(7, 'El frío', 		'Asociación de fotografría del frío', 		'2021-07-09', '21:00:00', 'Parque del frío', 			'https://www.elfrio.com', 			'descripcion', '/img/landscape.jpg'),
+	(8, 'Los relojes', 	'Asociación de fotografía de relojes', 		'2021-08-01', '18:15:00', 'Parque de los relojes', 		'https://www.losrelojes.com', 		'descripcion', '/img/clock.jpg'),
+	(9, 'Los ojos', 		'Asociación de fotografía de ojos', 		'2021-08-07', '12:45:00', 'Parque de los ojos', 		'https://www.losojos.com', 			'descripcion', '/img/eyes.jpg');
 # source ./www/db/insert_eventos.sql;
 
 # Insertamos datos de algunas imágenes
@@ -141,11 +157,23 @@ VALUES
 	(3, 2, "AnimalsPH", '2017', "Tiger photo", '/img/tiger.jpg');
 # source ./www/db/insert_imagenes.sql;
 
+# Insertamos datos de algunas etiquetas
+INSERT INTO etiquetas(id_etiqueta, id_evento, etiqueta)
+VALUES
+	(1, 1, "Espacio"),
+	(2, 1, "Estrellas"),
+	(3, 1, "Universo"),
+	(4, 1, "Galaxia"),
+	(5, 2, "Animales"),
+    (6, 2, "León");
+# source ./www/db/insert_etiquetas.sql;
+
 # Insertamos datos de algunos comentarios
 INSERT INTO comentarios(id_comentario, id_evento, nombre, email, fecha, comentario)
 VALUES
 	(1, 1, "Juan Pérez",		"juanperez@gmail.com"		, '2021-04-19 19:23:00', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nisi arcu, volutpat ut urna eu, tincidunt fermentum elit. Maecenas tellus ipsum, sodales vitae lacus ac, dictum finibus eros. Vestibulum vel euismod ex, a luctus nulla. Mauris sed eros feugiat, feugiat orci vel, tempor tortor.'),
-	(2, 1, "Antonio Sánchez",	"antoniosanchez@gmail.com"	, '2021-03-25 13:01:00', 'Nam ornare erat at posuere cursus. Aenean et laoreet dolor. Morbi ultrices, mi vel pretium suscipit, augue tortor varius lorem, gravida ultricies lacus risus id justo.');
+	(2, 1, "Antonio Sánchez",	"antoniosanchez@gmail.com"	, '2021-03-25 13:01:00', 'Nam ornare erat at posuere cursus. Aenean et laoreet dolor. Morbi ultrices, mi vel pretium suscipit, augue tortor varius lorem, gravida ultricies lacus risus id justo.'),
+	(1, 2, "Lorena Gómez",	"lorenagomez@gmail.com"	, '2021-03-26 09:41:00', 'Morbi ultrices, mi vel pretium suscipit, augue tortor varius lorem, gravida ultricies lacus risus id justo.');
 # source ./www/db/insert_comentarios.sql;
 
 # Insertamos datos de algunas palabrotas

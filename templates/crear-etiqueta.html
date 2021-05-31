@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+    {% block title %} Creación de etiqueta - Events X VSCO {% endblock %}
+
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/credenciales.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/formulario.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/boton.css"/>
+    {% endblock %}
+
+    {% block content %}
+        <main>
+            <div class="contenedor-login">
+                <div id="titulo-update" class="titulo-form">
+                    <h2>Crear etiqueta</h2>
+                </div>
+                <div id="contenedor-form-update" class="contenedor-form">
+                    <form id="form-crear-etiqueta" action="../../crearEtiqueta.php" method="post">
+                        <div class="input">
+                            <label for="etiqueta">Etiqueta</label>
+                            <input type="text" id="etiqueta" name="etiqueta"/>
+                        </div>
+                        <input id="id-evento" name="idEvento" type="hidden" value={{ evento.id_evento }} />
+                        <input id="boton-update" class="boton" type="submit" value="Crear etiqueta"/>
+                    </form>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+
