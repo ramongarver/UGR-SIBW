@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+    {% block title %} Edición de roles - Events X VSCO {% endblock %}
+
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/credenciales.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/formulario.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/boton.css"/>
+    {% endblock %}
+
+    {% block content %}
+        <main>
+            <table class="contenedor-login">
+                <tr>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                </tr>
+                {% for user in usuarios %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>
+                            <form action="/editarRol.php" method="post">
+                                <select name="rol" id="rol-id" {% if user.username == usuario.username %} disabled {% endif %}>
+                                    {% for rol in roles %}
+                                        {% if rol.rol != user.rol %}
+                                            <option value='{"username":"{{ user.username }}", "id_rol":{{ rol.id_rol }}}'>{{ rol.rol }}</option>
+                                        {% else %}
+                                            <option value={{ rol.id_rol }} selected>{{ rol.rol }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <td>
+                                    {% if user.username != usuario.username %}
+                                        <input id="boton-update" class="boton" type="submit" value="Actualizar rol"/>
+                                    {% endif %}
+                                </td>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </main>
+    {% endblock %}
+

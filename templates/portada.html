@@ -17,7 +17,7 @@
             <h2 id="titulo-eventos" class="titulo-articulo">EVENTOS</h2> <!-- Encabezado del artículo (evento) -->
             <div id="eventos"> <!-- Grid de eventos -->
                 {% for evento in eventos %}
-                    <a href="evento/{{ evento.id_evento }}"><div id="evento{{ evento.id_evento }}" class="evento">
+                    <a href="evento/{{ evento.id_evento }}"><div id="evento{{ evento.id_evento }}" class="evento" style="background-image: url('..{{ evento.url_portada }}');">
                         <h3>{{ evento.nombre }}</h3>
                         <p>{{ evento.fecha }}</p>
                     </div></a>

@@ -13,7 +13,7 @@
         <main>
             <div class="contenedor-login">
                 <div id="titulo-update" class="titulo-form">
-                    <h2>Actualizar</h2>
+                    <h2>Editar perfil</h2>
                 </div>
                 <div id="contenedor-form-update" class="contenedor-form">
                     <form action="../update.php" method="post">
@@ -62,7 +62,7 @@
             </div>
         </main>
 
-    <script src="/js/rellenarform.js"></script>
-    <script>rellenarForm({{ usuario|json_encode|raw }})</script>
+    <script src="/js/rellenarPerfil.js"></script>
+    <script>rellenarPerfil({{ usuario|json_encode|raw }})</script>
     {% endblock %}
 

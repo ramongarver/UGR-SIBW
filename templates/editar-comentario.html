@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+    {% block title %} Edición de perfil - Events X VSCO {% endblock %}
+
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/credenciales.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/formulario.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/boton.css"/>
+    {% endblock %}
+
+    {% block content %}
+        <main>
+            <div class="contenedor-login">
+                <div id="titulo-update" class="titulo-form">
+                    <h2>Editar comentario</h2>
+                </div>
+                <div id="formulario">
+                    <form action="/actualizarComentario.php" onsubmit="return enviarComentario()" method="post">
+                        <div class="input">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" readonly/>
+                        </div>
+                        <div class="input">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" readonly/>
+                        </div>
+                        <div class="input">
+                            <label for="texto-comentario">Comentario</label>
+                            <textarea id="texto-comentario" name="texto-comentario" rows="2" cols="10" oninput="filtrarPalabrotas({{ palabrotas | json_encode }})"></textarea>
+                        </div>
+                        <input id="id-evento" name="idEvento" type="hidden" value={{ comentario.id_evento }} />
+                        <input id="id-comentario" name="idComentario" type="hidden" value={{ comentario.id_comentario }} />
+                        <input id="botonEnviar" class="boton" type="submit" value="Editar"/>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <script src="/js/comentarios.js"></script>
+        <script src="/js/rellenarComentario.js"></script>
+        <script>rellenarComentario({{ comentario|json_encode|raw }})</script>
+    {% endblock %}
+

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+    {% block title %} Listado de eventos - Events X VSCO {% endblock %}
+
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/credenciales.css"/>
+    {% endblock %}
+
+    {% block content %}
+        <main>
+            <div class="contenedor-login">
+                <div id="titulo-update" class="titulo-form">
+                    <h2>Listado eventos</h2>
+                </div>
+                {% for evento in eventos %}
+                    <a href="/evento/{{ evento.id_evento }}"><p>{{ evento.nombre }}</p></a>
+                {% endfor %}
+            </div>
+        </main>
+    {% endblock %}
+

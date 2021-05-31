@@ -31,11 +31,11 @@
                 </div>
 
                 <div id="sesion">
-                    {% if not sesion.username %}
-                    <a href="/login"><h2>Iniciar sesión</h2></a>
+                    {% if not usuario.username %}
+                        <a href="/login"><h2>Iniciar sesión</h2></a>
                     {% else %}
-                    <a href="/perfil"><h2>Perfil</h2></a>
-                    <a href="/logout.php"><h2>Cerrar sesión</h2></a>
+                        <a href="/perfil"><h2>Perfil</h2></a>
+                        <a href="/logout.php"><h2>Cerrar sesión</h2></a>
                     {% endif %}
                 </div>
             </nav>

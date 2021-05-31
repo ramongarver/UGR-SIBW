@@ -24,13 +24,13 @@
                     <h1>Panel de control</h1>
                     <p><a href="/perfil/editar">Editar información de usuario</a></p>
                     {% if (usuario.rol == "Moderador") or (usuario.rol == "Moderador y Gestor") or (usuario.rol == "Superusuario") %}
-                        <p><a href="">Editar comentarios</a></p>
+                        <p><a href="/listado-comentarios">Listado comentarios</a></p>
                     {% endif %}
                     {% if (usuario.rol == "Gestor") or (usuario.rol == "Moderador y Gestor") or (usuario.rol == "Superusuario") %}
-                        <p><a href="">Editar eventos</a></p>
+                        <p><a href="/listado-eventos">Listado eventos</a></p>
                     {% endif %}
                     {% if usuario.rol == "Superusuario" %}
-                        <p><a href="">Editar roles</a></p>
+                        <p><a href="/perfil/editar-roles">Editar roles</a></p>
                     {% endif %}
                 </section>
             </div>

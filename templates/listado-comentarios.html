@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+    {% block title %} Listado de comentarios - Events X VSCO {% endblock %}
+
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/evento.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/credenciales.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/formulario.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/boton.css"/>
+    {% endblock %}
+
+    {% block content %}
+        <main>
+            <div class="contenedor-login">
+                <div id="titulo-update" class="titulo-form">
+                    <h2>Listado comentarios</h2>
+                </div>
+                {% for evento in eventos %}
+                    {% if evento.comentarios %}
+                        <h3>Evento - {{ evento.nombre }}</h3>
+                        <div id="comentarios">
+                            {% for comentario in evento.comentarios %}
+                                <div id="comentario{{ comentario.id_comentario }}" class="comentario">
+                                    <div class="autor-comentario">{{ comentario.nombre }},</div>
+                                    <div class="fecha-comentario">el {{ comentario.fecha }}, comentó:</div>
+                                    <p class="texto-comentario">{{ comentario.comentario }}</p>
+                                {% if comentario.id_moderador != -1 %}
+                                    <p class="comentario-modificado">(este comentario ha sido modificado por un moderador)</p>
+                                {% endif %}
+                                {% if usuario.rol and usuario.rol != "Registrado" and usuario.rol != "Gestor" %}
+                                    <div>
+                                        <form action="../editarComentario.php" method="post" class="botones-acciones-comentarios">
+                                            <input id="id-evento-editar-comentario" name="idEvento" type="hidden" value={{ evento.id_evento }} />
+                                            <input id="id-comentario-a-editar" name="idComentario" type="hidden" value={{ comentario.id_comentario }} />
+                                            <input id="boton-editar-comentario" class="boton-accion-comentario" type="image" src="/img/edit.png" />
+                                        </form>
+                                        <form action="../borrarComentario.php" method="post" class="botones-acciones-comentarios">
+                                            <input id="id-evento-borrar-comentario" name="idEvento" type="hidden" value={{ evento.id_evento }} />
+                                            <input id="id-comentario-a-borrar" name="idComentario" type="hidden" value={{ comentario.id_comentario }} />
+                                            <input id="boton-modificar-comentario" class="boton-accion-comentario" type="image" src="/img/trash.png" />
+                                        </form>
+                                    </div>
+                                {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </main>
+    {% endblock %}
+

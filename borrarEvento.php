@@ -6,26 +6,15 @@ $twig = new \Twig\Environment($loader);
 
 require_once './scripts/db.php';
 
-session_start();
-
 $application = new AppDB();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $idEvento = $_POST['idEvento'];
 
-    if ($application->comprobarLogin($username, $password)) {
-        session_start();
-        $_SESSION = $application->obtenerUsuario($username)[0];
-
+    if ($application->eliminarEvento($idEvento)) {
         header("Location: /");
     }
-    else {
-        header("Location: /login");
-    }
 }
-
-echo $twig->render('login.html', []);
 
 $application->cerrarConexion();
 ?>

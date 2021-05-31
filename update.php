@@ -6,9 +6,9 @@ $twig = new \Twig\Environment($loader);
 
 require_once './scripts/db.php';
 
-$application = new AppDB();
-
 session_start();
+
+$application = new AppDB();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $_POST;
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$application->existeUsuario($usuario['username']) or $_SESSION['username'] === $usuario['username']) {
         $usuario['previousUsername'] = $_SESSION['username'];
         if($application->actualizarUsuario($usuario)) {
-            $_SESSION['username'] = $usuario['username'];  // Guardo en la sesión el username del usuario que se ha actualizado
+            $_SESSION = $application->obtenerUsuario($usuario['username'])[0];
             header("Location:/perfil");
         }
         else {
@@ -28,5 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-echo $twig->render('perfil_editar.html', []);
+echo $twig->render('editar-perfil.html', []);
+
+$application->cerrarConexion();
 ?>

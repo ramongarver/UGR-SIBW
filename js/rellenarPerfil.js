@@ -1,4 +1,4 @@
-function rellenarForm(usuario) {
+function rellenarPerfil(usuario) {
     document.getElementById("username").value = usuario.username;
     document.getElementById("password").value = "pordefecto";
     document.getElementById("email").value = usuario.email;

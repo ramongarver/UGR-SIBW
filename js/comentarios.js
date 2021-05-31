@@ -11,38 +11,19 @@ function visualizacionComentarios() {
     else {
         comentarios.style.display = "block"; // Mostramos como block
         botonComentarios.innerHTML = "Ocultar comentarios";
-
     }
 }
 
 // Añadir comentario al HTML
 function enviarComentario() {
     // Obtenemos los valores del formulario
-    const nombre = document.getElementById("nombre").value;
-    const email = document.getElementById("email").value;
     const texto = document.getElementById("texto-comentario").value;
-    const fecha = getFormattedDate();
 
     // Verificamos que se hayan rellenado todos los campos
-    if (nombre.length === 0 || email.length === 0 || texto.length === 0) {
+    if (texto.length === 0) {
         alert("Por favor, rellene todos los campos antes de enviar su comentario.");
-        return;
+        return false;
     }
-
-    // Verificamos que el email sea correcto
-    if (!verificarEmail(email)) {
-        alert("Por favor, introduzca un email válido.");
-        return;
-    }
-
-    // Creamos un nuevo comentario
-    const nuevoComentario = crearComentario(nombre, fecha, texto);
-
-    // Añadimos el nuevo comentario a los comentarios
-    let comentarios = document.getElementById("comentarios");
-    comentarios.insertBefore(nuevoComentario, comentarios.firstChild);
-
-    limpiarFormulario();
 }
 
 // Limpiar formulario

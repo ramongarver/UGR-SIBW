@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+    {% block title %} Creación de evento - Events X VSCO {% endblock %}
+
+    {% block css %}
+        <link rel="stylesheet" type="text/css" href="/css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/credenciales.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/formulario.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/boton.css"/>
+    {% endblock %}
+
+    {% block content %}
+        <main>
+            <div class="contenedor-login">
+                <div id="titulo-update" class="titulo-form">
+                    <h2>Crear evento</h2>
+                </div>
+                <div id="contenedor-form-update" class="contenedor-form">
+                    <form id="form-crear-evento" action="../crearEvento.php" method="post" enctype="multipart/form-data">
+                        <div class="input">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre"/>
+                        </div>
+                        <div class="input">
+                            <label for="organizador">Organizador</label>
+                            <input type="text" id="organizador" name="organizador"/>
+                        </div>
+                        <div class="input">
+                            <label for="lugar">Lugar</label>
+                            <input type="text" id="lugar" name="lugar"/>
+                        </div>
+                        <div class="input">
+                            <label for="fecha">Fecha</label>
+                            <input type="date" id="fecha" name="fecha"/>
+                        </div>
+                        <div class="input">
+                            <label for="hora">Hora</label>
+                            <input type="time" id="hora" name="hora"/>
+                        </div>
+                        <div class="input">
+                            <label for="url">Página de contacto</label>
+                            <input type="url" id="url" name="url"/>
+                        </div>
+                        <div class="input">
+                            <label for="descripcion">Descripción</label>
+                            <textarea id="descripcion" name="descripcion" rows="6" cols="50"></textarea>
+                        </div>
+                        <div class="input">
+                            <label for="portada">Portada</label>
+                            <input type="file" id="portada" name="portada"/>
+                        </div>
+                        <div class="input">
+                            <label for="imagenes">Imágenes</label>
+                            <input type="file" id="imagenes" name="imagenes[]" multiple="multiple"/>
+                        </div>
+                        <input id="boton-update" class="boton" type="submit" value="Crear"/>
+                    </form>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+

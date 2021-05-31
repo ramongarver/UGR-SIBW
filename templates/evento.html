@@ -35,7 +35,19 @@
                     <a href="https://www.facebook.com/"><img class="red-social" src="/img/logofacebook.png" alt="Logo de Facebook"/></a>
                     <a href="{{ evento.id_evento }}/imprimir"><img class="red-social" src="/img/logoimpresora.png" alt="Logo de Impresora"/></a>
                 </div>
-            {% block comments %}
+                {% if usuario.rol and usuario.rol != "Registrado" and usuario.rol != "Moderador" %}
+                    <div id="acciones-evento" class="botones-acciones-evento">
+                        <form action="../editarEvento.php" method="post" class="botones-acciones-comentarios">
+                            <input id="id-evento-editar-evento" name="idEvento" type="hidden" value={{ evento.id_evento }} />
+                            <input id="boton-editar-evento" class="boton-accion-comentario" type="image" src="/img/editwhite.png" />
+                        </form>
+                        <form action="../borrarEvento.php" method="post" class="botones-acciones-comentarios">
+                            <input id="id-evento-borrar-evento" name="idEvento" type="hidden" value={{ evento.id_evento }} />
+                            <input id="boton-modificar-evento" class="boton-accion-comentario" type="image" src="/img/trashwhite.png" />
+                        </form>
+                    </div>
+                {% endif %}
+                {% block comments %}
                     <div id="contenedor-comentarios">
                         <button id="botonComentarios" class="boton" onclick="visualizacionComentarios()">Mostrar comentarios</button>
                         <div id="contenedor-interno-comentarios">
@@ -45,27 +57,42 @@
                                         <div class="autor-comentario">{{ comentario.nombre }},</div>
                                         <div class="fecha-comentario">el {{ comentario.fecha }}, comentó:</div>
                                         <p class="texto-comentario">{{ comentario.comentario }}</p>
+                                        {% if comentario.id_moderador != -1 %}
+                                            <p class="comentario-modificado">(este comentario ha sido modificado por un moderador)</p>
+                                        {% endif %}
+                                        {% if usuario.rol and usuario.rol != "Registrado" and usuario.rol != "Gestor" %}
+                                            <div>
+                                                <form action="../editarComentario.php" method="post" class="botones-acciones-comentarios">
+                                                    <input id="id-evento-editar-comentario" name="idEvento" type="hidden" value={{ evento.id_evento }} />
+                                                    <input id="id-comentario-a-editar" name="idComentario" type="hidden" value={{ comentario.id_comentario }} />
+                                                    <input id="boton-editar-comentario" class="boton-accion-comentario" type="image" src="/img/edit.png" />
+                                                </form>
+                                                <form action="../borrarComentario.php" method="post" class="botones-acciones-comentarios">
+                                                    <input id="id-evento-borrar-comentario" name="idEvento" type="hidden" value={{ evento.id_evento }} />
+                                                    <input id="id-comentario-a-borrar" name="idComentario" type="hidden" value={{ comentario.id_comentario }} />
+                                                    <input id="boton-modificar-comentario" class="boton-accion-comentario" type="image" src="/img/trash.png" />
+                                                </form>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 {% endfor %}
                             </div>
                             <h4>¡Escribe tu opinión!</h4>
-                            <div id="formulario">
-                                <form action="javascript:void(0);">
-                                    <div class="input">
-                                        <label for="nombre">Nombre</label>
-                                        <input type="text" id="nombre" name="nombre"/>
-                                    </div>
-                                    <div class="input">
-                                        <label for="email">Email</label>
-                                        <input type="email" id="email" name="email"/>
-                                    </div>
-                                    <div class="input">
-                                        <label for="texto-comentario">Comentario</label>
-                                        <textarea id="texto-comentario" name="texto-comentario" rows="2" cols="10" oninput="filtrarPalabrotas({{ palabrotas | json_encode }})"></textarea>
-                                    </div>
-                                    <button id="botonEnviar" class="boton" onclick="enviarComentario()">Enviar</button>
-                                </form>
-                            </div>
+                            {% if usuario.rol %}
+                                <div id="formulario">
+                                    <form action="/crearComentario.php" onsubmit="return enviarComentario()" method="post">
+                                        <div class="input">
+                                            <label for="texto-comentario">Comentario</label>
+                                            <textarea id="texto-comentario" name="texto-comentario" rows="2" cols="10" oninput="filtrarPalabrotas({{ palabrotas | json_encode }})"></textarea>
+                                        </div>
+                                        <input id="id-evento" name="idEvento" type="hidden" value={{ evento.id_evento }} />
+                                        <input id="id-usuario" name="idUsuario" type="hidden" value={{ usuario.id_usuario }} />
+                                        <input id="botonEnviar" class="boton" type="submit" value="Enviar"/>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <a href="/login"><p>Iniciar sesión</p></a>
+                            {% endif %}
                         </div>
                     </div>
             {% endblock %}
