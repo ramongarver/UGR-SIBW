@@ -62,7 +62,12 @@
   }
   else {
     $application = new AppDB();
-    $eventos = $application->obtenerEventos();
+    if (isset($_SESSION['username']) and $_SESSION['rol'] != 'Registrado' and $_SESSION['rol'] != 'Moderador') {
+      $eventos = $application->obtenerEventos();
+    }
+    else {
+      $eventos = $application->obtenerEventosPublicados();
+    }
 
     echo $twig->render('portada.html', ['usuario' => $_SESSION, 'eventos' => $eventos]);
 

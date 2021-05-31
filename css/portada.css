@@ -10,6 +10,30 @@
 }
 /**************************/
 
+/***** || BARRA DE BÚSQUEDA *****/
+.contenedor-barra-busqueda {
+    display: flex;
+    align-items: center;
+    flex-flow: column wrap;
+    margin-bottom: 2%;
+}
+
+.barra-busqueda {
+    font-family: Quicksand;
+    font-size: 2vw;
+    width: 25%;
+    border-radius: 2vw;
+    line-height: 2vw;
+    border-color: white;
+    border-style: unset;
+    text-indent: 4%;
+    outline: none;
+}
+.barra-busqueda:focus {
+    box-shadow: 0 0 0 0.15vw #FFFFFF;
+}
+/**************************/
+
 /***** || EVENTOS *****/
 #eventos {
     display: grid;

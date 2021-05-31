@@ -17,6 +17,33 @@
             return $infoEventos->fetch_all(MYSQLI_ASSOC);
         }
 
+        public function obtenerEventosPublicados() {
+            $infoEventos = $this->conexion->query("SELECT id_evento, nombre, fecha, url_portada FROM eventos WHERE publicado = 1");
+            return $infoEventos->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function obtenerEventosBusquedaParcial($busqueda) {
+            $busqueda = "%".$busqueda."%";
+            $infoEventos = $this->conexion->prepare("SELECT id_evento, nombre, fecha, url_portada FROM eventos WHERE nombre LIKE ?");
+            $infoEventos->bind_param("s", $busqueda);
+            if(!$infoEventos->execute()) {
+                return false;
+            }
+            $infoEventos = $infoEventos->get_result();
+            return $infoEventos->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function obtenerEventosBusquedaParcialPublicados($busqueda) {
+            $busqueda = "%".$busqueda."%";
+            $infoEventos = $this->conexion->prepare("SELECT id_evento, nombre, fecha, url_portada FROM eventos WHERE publicado = 1 AND nombre LIKE ?");
+            $infoEventos->bind_param("s", $busqueda);
+            if(!$infoEventos->execute()) {
+                return false;
+            }
+            $infoEventos = $infoEventos->get_result();
+            return $infoEventos->fetch_all(MYSQLI_ASSOC);
+        }
+
         public function obtenerEvento($idEvento) {
             $infoEvento = $this->conexion->prepare("SELECT id_evento, nombre, organizador, fecha, hora, lugar, url, descripcion, publicado FROM eventos WHERE id_evento = ?");
             $infoEvento->bind_param("i", $idEvento);

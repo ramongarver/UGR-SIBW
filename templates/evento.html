@@ -37,13 +37,17 @@
                             {% for etiqueta in etiquetas %}
                                 <div class="etiquetas">
                                     {{ etiqueta.etiqueta }}
-                                    <form action="../borrarEtiqueta.php" method="post" class="botones-acciones-etiquetas">
-                                        <input id="id-evento-eliminar-etiqueta" name="idEvento" type="hidden" value={{ etiqueta.id_evento }} />
-                                        <input id="id-etiqueta-eliminar-etiqueta" name="idEtiqueta" type="hidden" value={{ etiqueta.id_etiqueta }} />
-                                        <input id="boton-eliminar-etiqueta" class="boton-accion-etiqueta" type="image" src="/img/deletewhite.png" />
-                                    </form>
+
+                                    {% if usuario.rol and usuario.rol != 'Registrado' and usuario.rol != 'Moderador' %}
+                                         <form action="../borrarEtiqueta.php" method="post" class="botones-acciones-etiquetas">
+                                            <input id="id-evento-eliminar-etiqueta" name="idEvento" type="hidden" value={{ etiqueta.id_evento }} />
+                                            <input id="id-etiqueta-eliminar-etiqueta" name="idEtiqueta" type="hidden" value={{ etiqueta.id_etiqueta }} />
+                                            <input id="boton-eliminar-etiqueta" class="boton-accion-etiqueta" type="image" src="/img/deletewhite.png" />
+                                        </form>
+                                    {% endif %}
+
                                     {% if not loop.last %}
-                                        ,
+                                        |
                                     {% endif %}
                                 </div>
                             {% endfor %}
