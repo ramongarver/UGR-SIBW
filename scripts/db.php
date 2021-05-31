@@ -18,7 +18,7 @@
         }
 
         public function obtenerEvento($idEvento) {
-            $infoEvento = $this->conexion->prepare("SELECT id_evento, nombre, organizador, fecha, hora, lugar, url, descripcion FROM eventos WHERE id_evento = ?");
+            $infoEvento = $this->conexion->prepare("SELECT id_evento, nombre, organizador, fecha, hora, lugar, url, descripcion, publicado FROM eventos WHERE id_evento = ?");
             $infoEvento->bind_param("i", $idEvento);
             $infoEvento->execute();
             $infoEvento = $infoEvento->get_result();
@@ -50,11 +50,11 @@
             return $infoUrlPortada['url_portada'];
         }
 
-        public function crearEvento($idEvento, $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $url_imagenes) {
-            $creacionEvento = $this->conexion->prepare("INSERT INTO eventos(id_evento, nombre, organizador, lugar, fecha, hora, url, descripcion, url_portada) 
+        public function crearEvento($idEvento, $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $url_imagenes, $publicado) {
+            $creacionEvento = $this->conexion->prepare("INSERT INTO eventos(id_evento, nombre, organizador, lugar, fecha, hora, url, descripcion, url_portada, publicado) 
                      VALUES
-                     (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $creacionEvento->bind_param("issssssss", $idEvento, $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada);
+                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $creacionEvento->bind_param("issssssssi", $idEvento, $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $publicado);
             if(!$creacionEvento->execute()) {
                 return false;
             }
@@ -64,7 +64,7 @@
             return true;
         }
 
-        public function actualizarEvento($idEvento, $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $url_imagenes) {
+        public function actualizarEvento($idEvento, $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $url_imagenes, $publicado) {
             if($url_imagenes !== null) {
                 $this->eliminarImagenesEventoNoCoincidentes($idEvento, $this->obtenerUrlImagenes($idEvento));
                 if(!$this->crearImagenes($idEvento, $url_imagenes)) {
@@ -77,13 +77,13 @@
             }
             else {
                 $url_portada_vieja = $this->obtenerUrlPortada($idEvento);
-                if ($url_portada !== $url_portada_vieja AND !in_array($url_portada_vieja, $this->obtenerUrlImagenes($idEvento))) {
+                if ($url_portada_vieja !== null and $url_portada !== $url_portada_vieja and !in_array($url_portada_vieja, $this->obtenerUrlImagenes($idEvento))) {
                     unlink("." . $url_portada_vieja);
                 }
             }
 
-            $actualizacionEvento = $this->conexion->prepare("UPDATE eventos SET nombre = ?, organizador = ?, lugar = ?, fecha = ?, hora = ?, url = ?, descripcion = ?, url_portada = ? WHERE id_evento = ?");
-            $actualizacionEvento->bind_param("ssssssssi", $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $idEvento);
+            $actualizacionEvento = $this->conexion->prepare("UPDATE eventos SET nombre = ?, organizador = ?, lugar = ?, fecha = ?, hora = ?, url = ?, descripcion = ?, url_portada = ?, publicado = ? WHERE id_evento = ?");
+            $actualizacionEvento->bind_param("ssssssssii", $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $publicado, $idEvento);
             if(!$actualizacionEvento->execute()) {
                 return false;
             }
@@ -188,7 +188,12 @@
 
             $rutaPortada = $rutaPortada->get_result();
             $rutaPortada = $rutaPortada->fetch_all(MYSQLI_ASSOC);
-            unlink("." . $rutaPortada[0]['url_portada']);
+            $rutaPortada = $rutaPortada[0]['url_portada'];
+            if ($rutaPortada !== null) {
+                if (file_exists("." . $rutaPortada)) {
+                    unlink("." . $rutaPortada);
+                }
+            }
 
             return true;
         }
@@ -252,7 +257,6 @@
             return $rutasImagenes;
         }
 
-        // Elimina tanto portada como imágenes interiores de un evento
         public function eliminarImagenes($idEvento) {
             if(!$this->eliminarImagenesEvento($idEvento)) {
                 return false;

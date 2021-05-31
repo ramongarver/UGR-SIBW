@@ -8,7 +8,7 @@
   $resto = substr($resto, strlen((string)$idEvento));
 
   $application = new AppDB();
-  $evento = $application->obtenerEvento($idEvento); //$evento['descripcion'] = nl2br($evento['descripcion']);
+  $evento = $application->obtenerEvento($idEvento);
 
   // Si un evento tiene asociadas más de dos imágenes se muestran dos de forma aleatoria
   $imagenesTodas = $application->obtenerImagenes($idEvento);

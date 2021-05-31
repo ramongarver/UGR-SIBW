@@ -45,8 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hora = $_POST['hora'];
     $url = $_POST['url'];
     $descripcion = $_POST['descripcion'];
+    $publicado = $_POST['publicado'];
+    if ($publicado === 'on') { $publicado = 1; }
+    else $publicado = 0;
 
-    if($application->actualizarEvento($idEvento, $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $url_imagenes)) {
+    if($application->actualizarEvento($idEvento, $nombre, $organizador, $lugar, $fecha, $hora, $url, $descripcion, $url_portada, $url_imagenes, $publicado)) {
         header("Location: /evento/$idEvento");
     }
 }

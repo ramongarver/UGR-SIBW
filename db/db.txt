@@ -12,7 +12,7 @@ CREATE DATABASE events;
 CREATE USER 'admin'@'%' IDENTIFIED BY 'admin';
 
 # Damos permisos a nuestro usuario para poder trabajar con él (y no entrar como root ¡peligroso!)
-GRANT CREATE, REFERENCES, LOCK TABLES, DELETE, DROP, INDEX, INSERT, SELECT, UPDATE ON events.* TO 'admin'@'%';
+GRANT CREATE, REFERENCES, ALTER, LOCK TABLES, DELETE, DROP, INDEX, INSERT, SELECT, UPDATE ON events.* TO 'admin'@'%';
 
 # Salimos del cliente SQL
 exit;
@@ -61,7 +61,8 @@ CREATE TABLE eventos(
 	url VARCHAR(512),
 	descripcion VARCHAR(1024),
 	etiquetas VARCHAR(255),
-	url_portada VARCHAR(512)
+	url_portada VARCHAR(512),
+	publicado BOOLEAN NOT NULL DEFAULT false
 );
 # source ./www/db/create_eventos.sql;
 
@@ -136,7 +137,7 @@ CREATE TABLE usuarios(
 # source ./www/db/create_usuarios.sql;
 
 # Insertamos datos de algunos eventos
-INSERT INTO eventos(id_evento, nombre, organizador, fecha, hora, lugar, url, descripcion, url_portada)
+INSERT INTO eventos(id_evento, nombre, organizador, fecha, hora, lugar, url, descripcion, url_portada, publicado)
 VALUES
 	(1, 'El espacio',		'Asociación de fotografía del espacio',		'2021-06-23', '23:30:00', 'Mirador de San Miguel Alto', 'https://www.elespacio.com', 		'descripcion', '/img/stars.jpg'),
 	(2, 'Los animales', 	'Asociación de fotografía de animales', 	'2021-06-30', '17:15:00', 'Parque de los animales', 	'https://www.losanimales.com', 		'descripcion', '/img/animals.jpg'),

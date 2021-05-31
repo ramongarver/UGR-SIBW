@@ -6,4 +6,5 @@ function rellenarEvento(evento) {
     document.getElementById("hora").value = evento.hora;
     document.getElementById("url").value = evento.url;
     document.getElementById("descripcion").value = evento.descripcion;
+    document.getElementById("publicado").checked = evento.publicado == 1;
 }
