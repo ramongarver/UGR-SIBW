@@ -64,7 +64,7 @@
         }
 
         public function obtenerNombreEventos() {
-            $infoEventos = $this->conexion->query("SELECT id_evento, nombre FROM eventos");
+            $infoEventos = $this->conexion->query("SELECT id_evento, nombre, publicado FROM eventos");
             return $infoEventos->fetch_all(MYSQLI_ASSOC);
         }
 
@@ -116,6 +116,16 @@
             }
             return true;
         }
+
+        public function actualizarEventoPublicado($idEvento, $publicado) {
+            $actualizacionEvento = $this->conexion->prepare("UPDATE eventos SET publicado = ? WHERE id_evento = ?");
+            $actualizacionEvento->bind_param("ii", $publicado, $idEvento);
+            if(!$actualizacionEvento->execute()) {
+                return false;
+            }
+            return true;
+        }
+
 
         public function obtenerImagenes($idEvento) {
             $infoImagenes = $this->conexion->prepare("SELECT id_imagen, autor, year, descripcion, path FROM imagenes WHERE id_evento = ?");

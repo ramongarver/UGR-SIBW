@@ -5,6 +5,7 @@
     {% block css %}
         <link rel="stylesheet" type="text/css" href="/css/base.css"/>
         <link rel="stylesheet" type="text/css" href="/css/credenciales.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/boton.css"/>
     {% endblock %}
 
     {% block content %}
@@ -13,10 +14,32 @@
                 <div id="titulo-update" class="titulo-form">
                     <h2>Listado eventos</h2>
                 </div>
-                {% for evento in eventos %}
-                    <a href="/evento/{{ evento.id_evento }}"><p>{{ evento.nombre }}</p></a>
-                {% endfor %}
+                <table>
+                    <tr>
+                        <th>Evento</th>
+                        <th>Publicado</th>
+                    </tr>
+                    {% for evento in eventos %}
+                        <tr>
+                            <td>
+                                <a href="/evento/{{ evento.id_evento }}"><h4 class="evento-lista">{{ evento.nombre }}</h4></a>
+                            </td>
+                            <td>
+                                <form action="/actualizarEstadoPublicacion.php" method="post">
+                                    <input type="checkbox" id="publicado{{ evento.id_evento }}" name="publicado"/>
+                                    <td>
+                                        <input id="id-evento" name="idEvento" type="hidden" value={{ evento.id_evento }} />
+                                        <input id="boton-update" class="boton" type="submit" value="Actualizar"/>
+                                    </td>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
             </div>
         </main>
+
+        <script src="/js/rellenarPublicado.js"></script>
+        <script>rellenarPublicado({{ eventos|json_encode|raw }})</script>
     {% endblock %}
 
