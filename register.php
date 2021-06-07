@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$application->existeUsuario($usuario['username'])) {
         if($application->registrarUsuario($usuario)) {
-            $_SESSION['username'] = $usuario['username'];  // Guardo en la sesión el username del usuario que se ha registrado
+            $_SESSION = $application->obtenerUsuario($usuario['username'])[0];
             header("Location:/");
         }
         else {
